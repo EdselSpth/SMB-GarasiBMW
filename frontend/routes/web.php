@@ -10,3 +10,7 @@ Route::get('/jenis-mesin', function () {
     return view('pages.jenisMesin');
 });
 
+Route::get('/manajemen-karyawan', function (){
+    return view('pages.manajemen_pegawai.data_manajemenPegawai');
+});
+
