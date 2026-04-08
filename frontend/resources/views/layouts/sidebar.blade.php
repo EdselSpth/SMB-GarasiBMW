@@ -1,7 +1,7 @@
 <aside class="w-[280px] flex flex-col flex-shrink-0 min-h-screen shadow-sm">
     <div class="bg-bmw-dark p-[24px] h-[100px] flex items-center gap-[12px]">
         <div class="w-[42px] h-[42px] rounded-full border border-white/20 p-1 flex items-center justify-center bg-white/5">
-             <img src="https://bengkel-garasibmw.com/wp-content/uploads/2021/08/cropped-logo-kecil-1-300x300.png" 
+             <img src="{{ asset('assets/login-assets/login-logo.png') }}" 
              class="w-full h-full object-contain" alt="Logo">
         </div>
         <div class="text-white">
