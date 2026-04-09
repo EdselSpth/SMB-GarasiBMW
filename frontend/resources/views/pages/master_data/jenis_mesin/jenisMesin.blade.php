@@ -5,7 +5,16 @@
 @section('title_header', 'Master Data | Jenis Mesin')
 
 @section('content')
-    @include('layouts.action_bar', ['placeholder' => 'Cari jenis mesin...', 'btnText' => 'Tambah Jenis Mesin'])
+    
+    @include('layouts.action_bar', [
+        'placeholder'    => 'Cari Jenis Mesin...',
+        'searchUrl'      => '#', 
+        'filterModalId'  => 'modalFilterKaryawan', 
+        'exportExcelUrl' => '#',
+        'exportPdfUrl'   => '#',
+        'addUrl'         => '#',
+        'btnText'        => 'Tambah Mesin'
+    ])
 
     <!-- 3. Table Card -->
     <div class="bg-white rounded-[12px] border border-[#D9E2EC] shadow-sm flex flex-col min-h-[500px] overflow-hidden">
