@@ -1,5 +1,5 @@
-﻿<aside class="w-[280px] flex flex-col shrink-0 min-h-screen shadow-sm">
-    <div class="bg-bmw-dark p-6 h-[100px] flex items-center gap-3">
+<aside class="w-[280px] flex flex-col flex-shrink-0 min-h-screen shadow-sm">
+    <div class="bg-bmw-dark p-[24px] h-[100px] flex items-center gap-[12px]">
         <div
             class="w-[42px] h-[42px] rounded-full border border-white/20 p-1 flex items-center justify-center bg-white/5">
             <img src="{{ asset('assets/login-assets/login-logo.png') }}" class="w-full h-full object-contain"
@@ -11,22 +11,22 @@
         </div>
     </div>
 
-    <nav class="flex-1 bg-bmw-light-bg p-4 space-y-1">
+    <nav class="flex-1 bg-bmw-light-bg p-[16px] space-y-[4px]">
         <a href="#"
-            class="flex items-center gap-3.5 px-4 py-3 rounded-[10px] text-[#213F5C] hover:bg-white/50 transition-all group">
-            <svg class="w-[22px] h-[22px] text-[#213F5C]/70 group-hover:text-bmw-blue" fill="none" stroke="currentColor"
-                stroke-width="2" viewBox="0 0 24 24">
+            class="flex items-center gap-[14px] px-[16px] py-[12px] rounded-[10px] text-[#213F5C] hover:bg-white/50 transition-all group">
+            <svg class="w-[22px] h-[22px] text-[#213F5C]/70 group-hover:text-bmw-blue" fill="none"
+                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0l-7 7-7-7M19 10v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
                 </path>
-            </svg>X
+            </svg>
             <span class="font-bold text-[15px]">Beranda</span>
         </a>
 
-        @foreach(['Layanan Servis', 'Manajemen Stok', 'Kepegawaian'] as $menu)
+        @foreach (['Layanan Servis', 'Manajemen Stok', 'Kepegawaian'] as $menu)
             <a href="#"
-                class="flex items-center justify-between px-4 py-3 rounded-[10px] text-[#213F5C] hover:bg-white/50 group transition-all">
-                <div class="flex items-center gap-3.5">
+                class="flex items-center justify-between px-[16px] py-[12px] rounded-[10px] text-[#213F5C] hover:bg-white/50 group transition-all">
+                <div class="flex items-center gap-[14px]">
                     <svg class="w-[22px] h-[22px] text-[#213F5C]/70 group-hover:text-bmw-blue" fill="none"
                         stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path
@@ -35,16 +35,17 @@
                     </svg>
                     <span class="font-bold text-[15px]">{{ $menu }}</span>
                 </div>
-                <svg class="w-3.5 h-3.5 text-[#213F5C]/40 group-hover:text-bmw-blue" fill="none" stroke="currentColor"
-                    stroke-width="3" viewBox="0 0 24 24">
+                <svg class="w-[14px] h-[14px] text-[#213F5C]/40 group-hover:text-bmw-blue" fill="none"
+                    stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                     <path d="M9 5l7 7-7 7"></path>
                 </svg>
             </a>
         @endforeach
 
-        <div class="pt-1">
-            <button class="w-full flex items-center justify-between px-4 py-3 rounded-[10px] text-[#213F5C] font-bold">
-                <div class="flex items-center gap-3.5">
+        <div class="pt-[4px]" x-data="{ open: true }">
+            <button @click="open = !open"
+                class="w-full flex items-center justify-between px-[16px] py-[12px] rounded-[10px] text-[#213F5C] font-bold">
+                <div class="flex items-center gap-[14px]">
                     <svg class="w-[22px] h-[22px] text-bmw-blue" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24">
                         <path
@@ -53,32 +54,65 @@
                     </svg>
                     <span class="text-[15px]">Master Data</span>
                 </div>
-                <svg class="w-3.5 h-3.5 text-bmw-blue transition-transform rotate-180" fill="none" stroke="currentColor"
-                    stroke-width="3" viewBox="0 0 24 24">
+                <svg :class="open ? 'rotate-180' : 'rotate-0'"
+                    class="w-[14px] h-[14px] text-bmw-blue transition-transform duration-300" fill="none"
+                    stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                     <path d="M19 9l-7 7-7-7"></path>
                 </svg>
             </button>
-            <div class="mt-1 space-y-0.5">
-                <a href="#"
-                    class="block pl-[52px] py-2.5 text-[14px] text-[#526D82] hover:text-bmw-blue font-medium transition-colors">Data
-                    Pelanggan</a>
-                <a href="#"
-                    class="block pl-[52px] py-2.5 text-[14px] text-[#526D82] hover:text-bmw-blue font-medium transition-colors">Jenis
-                    Mobil</a>
 
-                <div class="mx-3">
-                    <a href="#"
-                        class="block pl-10 py-3 text-[14px] text-[#213F5C] font-bold bg-bmw-active-btn rounded-[10px]">
+            <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
+                class="mt-[4px] space-y-[2px]">
+
+                {{-- Data Pelanggan --}}
+                <div class="mx-[12px]">
+                    <a href="{{ url('/pelanggan') }}"
+                        class="block pl-[40px] py-[12px] text-[14px] font-medium transition-colors rounded-[10px]
+                  {{ request()->is('pelanggan') ? 'text-[#213F5C] font-bold bg-bmw-active-btn' : 'text-[#526D82] hover:text-bmw-blue pl-[52px]' }}">
+                        Data Pelanggan
+                    </a>
+                </div>
+
+                {{-- Jenis Mobil --}}
+                <div class="mx-[12px]">
+                    <a href="{{ url('/jenis-mobil') }}"
+                        class="block pl-[40px] py-[12px] text-[14px] font-medium transition-colors rounded-[10px]
+                  {{ request()->is('jenis-mobil') ? 'text-[#213F5C] font-bold bg-bmw-active-btn' : 'text-[#526D82] hover:text-bmw-blue pl-[52px]' }}">
+                        Jenis Mobil
+                    </a>
+                </div>
+
+                {{-- Jenis Mesin --}}
+                <div class="mx-[12px]">
+                    <a href="{{ url('/jenis-mesin') }}"
+                        class="block pl-[40px] py-[12px] text-[14px] font-medium transition-colors rounded-[10px]
+                  {{ request()->is('jenis-mesin') ? 'text-[#213F5C] font-bold bg-bmw-active-btn' : 'text-[#526D82] hover:text-bmw-blue pl-[52px]' }}">
                         Jenis Mesin
                     </a>
                 </div>
 
-                <a href="#"
-                    class="block pl-[52px] py-2.5 text-[14px] text-[#526D82] hover:text-bmw-blue font-medium transition-colors">Kategori
-                    Barang</a>
-                <a href="#"
-                    class="block pl-[52px] py-2.5 text-[14px] text-[#526D82] hover:text-bmw-blue font-medium transition-colors">Supplier</a>
+                {{-- Kategori Barang --}}
+                <div class="mx-[12px]">
+                    <a href="{{ url('/kategori-sparepart') }}"
+                        class="block pl-[40px] py-[12px] text-[14px] font-medium transition-colors rounded-[10px]
+                  {{ request()->is('kategori-sparepart') ? 'text-[#213F5C] font-bold bg-bmw-active-btn' : 'text-[#526D82] hover:text-bmw-blue pl-[52px]' }}">
+                        Kategori Barang
+                    </a>
+                </div>
+
+                {{-- Supplier --}}
+                <div class="mx-[12px]">
+                    <a href="{{ url('/supplier') }}"
+                        class="block pl-[40px] py-[12px] text-[14px] font-medium transition-colors rounded-[10px]
+                  {{ request()->is('supplier') ? 'text-[#213F5C] font-bold bg-bmw-active-btn' : 'text-[#526D82] hover:text-bmw-blue pl-[52px]' }}">
+                        Supplier
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 </aside>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>

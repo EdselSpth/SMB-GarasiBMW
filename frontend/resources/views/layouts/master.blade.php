@@ -141,7 +141,6 @@
                     </button>
                 </div>
             </header>
-
             @yield('content')
 
             <footer class="mt-6 text-[13px] text-[#627D98]">
