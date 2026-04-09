@@ -25,3 +25,7 @@ Route::get('/kategori-sparepart', function () {
 Route::get('/supplier', function () {
     return view('pages.master_data.supplier.supplier');
 });
+
+Route::get('/suku-cadang', function () {
+    return view('pages.suku_cadang.sukuCadang');
+});
