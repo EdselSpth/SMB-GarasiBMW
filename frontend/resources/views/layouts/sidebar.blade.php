@@ -43,8 +43,7 @@
         @endforeach
 
         <div class="pt-1">
-            <button
-                class="w-full flex items-center justify-between px-4 py-3 rounded-[10px] text-[#213F5C] font-bold">
+            <button class="w-full flex items-center justify-between px-4 py-3 rounded-[10px] text-[#213F5C] font-bold">
                 <div class="flex items-center gap-3.5">
                     <svg class="w-[22px] h-[22px] text-bmw-blue" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24">
@@ -54,8 +53,8 @@
                     </svg>
                     <span class="text-[15px]">Master Data</span>
                 </div>
-                <svg class="w-3.5 h-3.5 text-bmw-blue transition-transform rotate-180" fill="none"
-                    stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                <svg class="w-3.5 h-3.5 text-bmw-blue transition-transform rotate-180" fill="none" stroke="currentColor"
+                    stroke-width="3" viewBox="0 0 24 24">
                     <path d="M19 9l-7 7-7-7"></path>
                 </svg>
             </button>

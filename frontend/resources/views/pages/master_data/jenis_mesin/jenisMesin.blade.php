@@ -21,6 +21,10 @@
             ['code' => 'M54', 'cyl' => 'Inline-6', 'oil' => '5,5 Liter', 'fuel' => 'SOLAR', 'cap' => '2498cc'],
             ['code' => 'M54', 'cyl' => 'Inline-6', 'oil' => '5,5 Liter', 'fuel' => 'MINYAK TANAH', 'cap' => '2498cc'],
             ['code' => 'M54', 'cyl' => 'Inline-6', 'oil' => '5,5 Liter', 'fuel' => 'BENSIN', 'cap' => '2498cc'],
+            ['code' => 'M54', 'cyl' => 'Inline-6', 'oil' => '5,5 Liter', 'fuel' => 'BENSIN', 'cap' => '2498cc'],
+            ['code' => 'M54', 'cyl' => 'Inline-6', 'oil' => '5,5 Liter', 'fuel' => 'SOLAR', 'cap' => '2498cc'],
+            ['code' => 'M54', 'cyl' => 'Inline-6', 'oil' => '5,5 Liter', 'fuel' => 'MINYAK TANAH', 'cap' => '2498cc'],
+            ['code' => 'M54', 'cyl' => 'Inline-6', 'oil' => '5,5 Liter', 'fuel' => 'BENSIN', 'cap' => '2498cc'],
         ];
     @endphp
 
@@ -55,7 +59,7 @@
         'exportExcelUrl' => '#',
         'exportPdfUrl' => '#',
         'addUrl' => '#',
-        'btnText' => 'Tambah Mesin'
+        'btnText' => 'Tambah Jenis Mesin'
     ])
 
         @include('layouts.table_wrapper', [

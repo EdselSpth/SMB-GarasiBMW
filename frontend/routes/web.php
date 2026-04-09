@@ -14,3 +14,14 @@ Route::get('/manajemen-karyawan', function (){
     return view('pages.manajemen_pegawai.data_manajemenPegawai');
 });
 
+Route::get('/jenis-mobil', function () {
+    return view('pages.master_data.jenis_mobil.jenisMobil');
+});
+
+Route::get('/kategori-sparepart', function () {
+    return view('pages.master_data.kategori_sparepart.kategoriSparepart');
+});
+
+Route::get('/supplier', function () {
+    return view('pages.master_data.supplier.supplier');
+});

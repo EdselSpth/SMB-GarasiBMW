@@ -1,9 +1,9 @@
 {{-- resources/views/layouts/partials/table_wrapper.blade.php --}}
 
-<div class="bg-white rounded-xl border border-[#D9E2EC] shadow-sm flex flex-col min-h-[500px] overflow-hidden">
-    <div class="flex-1 overflow-x-auto">
-        <table class="w-full text-left">
-            <thead class="bg-white border-b border-[#D9E2EC]">
+<div class="bg-white rounded-xl border border-[#D9E2EC] shadow-sm flex flex-col overflow-hidden">
+    <div class="flex-1 overflow-x-auto scrollbar-hide">
+        <table class="w-full text-left border-collapse">
+            <thead class="bg-white border-b border-[#D9E2EC] sticky top-0 z-10">
                 <tr class="text-[11px] font-bold text-[#627D98] uppercase tracking-[0.05em]">
                     @yield('table_header')
                 </tr>
