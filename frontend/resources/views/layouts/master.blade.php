@@ -62,10 +62,6 @@
     <div class="flex min-h-screen">
         @include('layouts.sidebar')
 
-<<<<<<< HEAD
-        <main class="flex-1 p-[24px] overflow-y-auto h-screen">
-            <header class="bg-white rounded-[12px] border border-[#D9E2EC] p-[16px] flex items-center justify-between shadow-sm mb-[20px]">
-=======
         <main class="flex-1 h-screen overflow-y-auto p-6">
 
             <div class="max-w-screen-2xl mx-auto w-full flex flex-col min-h-full">
@@ -120,7 +116,6 @@
 
             <header
                 class="bg-white rounded-xl border border-[#D9E2EC] p-4 flex items-center justify-between shadow-sm mb-5">
->>>>>>> f85e43800a223561bc688f62be9012d119961361
                 <h2 class="text-[20px] font-bold text-bmw-dark">@yield('title_header', 'Dashboard')</h2>
 
                 <div class="flex items-center gap-3">
