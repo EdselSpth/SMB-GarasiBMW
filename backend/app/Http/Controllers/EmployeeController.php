@@ -5,25 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $employees = Employee::all();
-        return view('backend.employee.index', compact('employees'));
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data pegawai berhasil ditarik',
+            'data' => $employees
+        ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $validate = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'join_date' => 'required|date',
             'birth_date' => 'required|date',
@@ -34,23 +32,24 @@ class EmployeeController extends Controller
             'base_salary' => 'required|numeric',
         ]);
 
-        $validate['password'] = Hash::make($validate['password']);
+        $validated['password'] = Hash::make($validated['password']);
 
-        $validate['created_by'] = Auth::user()->employees_id;
+        $validated['created_by'] = auth()->id();
 
-        Employee::create($validate);
+        $employee = Employee::create($validated);
 
-        return redirect()->back()->with('success', 'Data Pegawai berhasil ditambahkan!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data Pegawai berhasil ditambahkan!',
+            'data' => $employee
+        ], 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $employee = Employee::findOrFail($id);
 
-        $validate = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string',
             'base_salary' => 'required|numeric',
@@ -58,24 +57,27 @@ class EmployeeController extends Controller
         ]);
 
         if ($request->filled('password')) {
-            $validate['password'] = Hash::make($validate['password']);
+            $validated['password'] = Hash::make($request->password);
         }
 
-        $employee->update($validate);
+        $validated['updated_by'] = auth()->id();
+        $employee->update($validated);
 
-        return redirect()->back()->with('success', 'Data Pegawai berhasil diupdate!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data Pegawai berhasil diupdate!',
+            'data' => $employee
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $employee = Employee::findOrFail($id);
+        $employee->update(['status' => false]); // Soft delete / nonaktifkan
 
-        // gw bikin false (resign) biar history gaji gak hilang
-        $employee->update(['status' => false]);
-
-        return redirect()->back()->with('success', 'Pegawai berhasil dinonaktifkan!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Pegawai berhasil dinonaktifkan!',
+        ], 200);
     }
 }

@@ -3,25 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sparepart;
-use App\Models\ItemCategory;
-use App\Models\Supplier;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class SparepartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
+        // Tetep narik relasi category dan supplier biar frontend gampang nampilinnya
         $spareparts = Sparepart::with(['category', 'supplier'])->orderBy('created_at', 'desc')->get();
-        return view('backend.spareparts.index', compact('spareparts'));
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data inventaris suku cadang berhasil ditarik',
+            'data' => $spareparts
+        ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -36,16 +33,18 @@ class SparepartController extends Controller
             'date' => 'required|date',
         ]);
 
-        $validated['created_by'] = Auth::user()->employees_id;
+        // Ini pake ID user yang lagi login via API token nanti
+        $validated['created_by'] = $request->user()->employees_id ?? 1; // Fallback ke 1 buat testing sementara
 
-        Sparepart::create($validated);
+        $sparepart = Sparepart::create($validated);
 
-        return redirect()->back()->with('success', 'Data Sparepart berhasil ditambahkan!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Suku cadang berhasil ditambahkan ke inventaris!',
+            'data' => $sparepart
+        ], 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $sparepart = Sparepart::findOrFail($id);
@@ -59,21 +58,25 @@ class SparepartController extends Controller
             'quantity' => 'required|integer|min:0',
         ]);
 
-        $validated['updated_by'] = Auth::user()->employees_id;
+        $validated['updated_by'] = $request->user()->employees_id ?? 1;
 
         $sparepart->update($validated);
 
-        return redirect()->back()->with('success', 'Data suku cadang berhasil diupdate!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data suku cadang berhasil diupdate!',
+            'data' => $sparepart
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $sparepart = Sparepart::findOrFail($id);
         $sparepart->delete();
 
-        return redirect()->back()->with('success', 'Data suku cadang berhasil dihapus!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Suku cadang berhasil dihapus!',
+        ], 200);
     }
 }
