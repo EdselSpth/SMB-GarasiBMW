@@ -7,10 +7,6 @@ use Illuminate\Http\Request;
 
 class AdditionalIncomeController extends Controller
 {
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -21,19 +17,14 @@ class AdditionalIncomeController extends Controller
             'disbursement_method' => 'required|in:bulan ini,akhir tahun,bulan ke 40',
         ]);
 
-        AdditionalIncome::create($validated);
-
-        return redirect()->back()->with('success', 'Komponen gaji tambahan berhasil dicatat!');
+        $validated['created_by'] = auth()->id();
+        $income = AdditionalIncome::create($validated);
+        return response()->json(['status' => 'success', 'message' => 'Komponen dicatat', 'data' => $income], 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        $income = AdditionalIncome::findOrFail($id);
-        $income->delete();
-
-        return redirect()->back()->with('success', 'Komponen gaji berhasil dihapus!');
+        AdditionalIncome::findOrFail($id)->delete();
+        return response()->json(['status' => 'success', 'message' => 'Komponen dihapus'], 200);
     }
 }

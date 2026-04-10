@@ -3,47 +3,62 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Employee;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function login()
+    // Fungsi buat login dan generate token
+    public function login(Request $request)
     {
-        return view('backend.auth.login');
-    }
-    public function authenticate(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+        // 1. Validasi Input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            // Cek apakah akun masih aktif (status = true)
-            if (Auth::user()->status == false) {
-                Auth::logout();
-                return back()->withErrors(['email' => 'Akun lu udah non-aktif brok!']);
-            }
+        // 2. Cari data pegawai berdasarkan email
+        $employee = Employee::where('email', $request->email)->first();
 
-            $request->session()->regenerate();
-
-            // Redirect ke halaman dashboard kalau sukses
-            return redirect()->intended('dashboard')->with('success', 'Halo, selamat datang!');
+        // 3. Cek apakah email ketemu DAN password cocok
+        if (!$employee || !Hash::check($request->password, $employee->password)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Email atau password salah brok!'
+            ], 401); // 401 = Unauthorized
         }
 
-        // Kalau gagal login
-        return back()->withErrors([
-            'email' => 'Email atau password salah brok.',
-        ])->onlyInput('email');
+        // 4. Cek apakah akunnya masih aktif
+        if ($employee->status == false) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Akun lu udah non-aktif brok!'
+            ], 403); // 403 = Forbidden
+        }
+
+        // 5. Kalo semua aman, Generate Token Sanctum!
+        $token = $employee->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Login berhasil!',
+            'data' => [
+                'user' => $employee,
+                'access_token' => $token,
+                'token_type' => 'Bearer' // Standar token API
+            ]
+        ], 200);
     }
 
+    // Fungsi buat logout (menghapus token)
     public function logout(Request $request)
     {
-        Auth::logout();
+        // Hapus token yang lagi dipake buat transaksi ini
+        $request->user()->currentAccessToken()->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/login');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Logout berhasil, token udah hangus!'
+        ], 200);
     }
 }

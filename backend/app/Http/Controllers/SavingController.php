@@ -7,18 +7,12 @@ use Illuminate\Http\Request;
 
 class SavingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $savings = Saving::with(['employee', 'payroll'])->orderBy('due_date', 'asc')->get();
-        return view('backend.savings.index', compact('savings'));
+        return response()->json(['status' => 'success', 'data' => $savings], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -30,24 +24,18 @@ class SavingController extends Controller
             'due_date' => 'required|date',
         ]);
 
-        Saving::create($validated);
-
-        return redirect()->back()->with('success', 'Data tabungan berhasil ditambahkan!');
+        $saving = Saving::create($validated);
+        return response()->json(['status' => 'success', 'message' => 'Tabungan dicatat', 'data' => $saving], 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $saving = Saving::findOrFail($id);
-
         $validated = $request->validate([
             'status' => 'required|in:locked,available,withdrawn,forfeited',
         ]);
 
         $saving->update($validated);
-
-        return redirect()->back()->with('success', 'Status tabungan berhasil diupdate!');
+        return response()->json(['status' => 'success', 'message' => 'Status tabungan diupdate', 'data' => $saving], 200);
     }
 }

@@ -4,22 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $customers = Customer::orderBy('created_at', 'desc')->get();
-        return view('backend.customers.index', compact('customers'));
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data pelanggan berhasil ditarik',
+            'data' => $customers
+        ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -28,16 +26,17 @@ class CustomerController extends Controller
             'address' => 'required|string',
         ]);
 
-        $validated['created_by'] = Auth::user()->employees_id;
+        $validated['created_by'] = $request->user()->employees_id ?? 1;
 
-        Customer::create($validated);
+        $customer = Customer::create($validated);
 
-        return redirect()->back()->with('success', 'Data Pelanggan berhasil ditambahkan!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data Pelanggan berhasil ditambahkan!',
+            'data' => $customer
+        ], 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $customer = Customer::findOrFail($id);
@@ -48,21 +47,25 @@ class CustomerController extends Controller
             'address' => 'required|string',
         ]);
 
-        $validated['edited_by'] = Auth::user()->employees_id;
+        $validated['created_by'] = $request->user()->employees_id ?? 1;
 
         $customer->update($validated);
 
-        return redirect()->back()->with('success', 'Data Pelanggan berhasil diupdate!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data Pelanggan berhasil diupdate!',
+            'data' => $customer
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $customer = Customer::findOrFail($id);
         $customer->delete();
 
-        return redirect()->back()->with('success', 'Data Pelanggan berhasil dihapus!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data Pelanggan berhasil dihapus!',
+        ], 200);
     }
 }

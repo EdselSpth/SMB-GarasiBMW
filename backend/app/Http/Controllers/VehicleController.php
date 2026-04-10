@@ -4,22 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class VehicleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $vehicles = Vehicle::with(['customer', 'carType'])->orderBy('created_at', 'desc')->get();
-        return view('backend.vehicles.index', compact('vehicles'));
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data kendaraan berhasil ditarik',
+            'data' => $vehicles
+        ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -32,16 +30,17 @@ class VehicleController extends Controller
             'odometer' => 'required|integer|min:0',
         ]);
 
-        $validated['created_by'] = Auth::user()->employees_id;
+        $validated['created_by'] = $request->user()->employees_id ?? 1;
 
-        Vehicle::create($validated);
+        $vehicle = Vehicle::create($validated);
 
-        return redirect()->back()->with('success', 'Data Kendaraan berhasil ditambahkan!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data Kendaraan berhasil ditambahkan!',
+            'data' => $vehicle
+        ], 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $vehicle = Vehicle::findOrFail($id);
@@ -54,21 +53,25 @@ class VehicleController extends Controller
             'odometer' => 'required|integer|min:0',
         ]);
 
-        $validated['updated_by'] = Auth::user()->employees_id;
+        $validated['created_by'] = $request->user()->employees_id ?? 1;
 
         $vehicle->update($validated);
 
-        return redirect()->back()->with('success', 'Data Kendaraan berhasil diupdate!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data Kendaraan berhasil diupdate!',
+            'data' => $vehicle
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $vehicle = Vehicle::findOrFail($id);
         $vehicle->delete();
 
-        return redirect()->back()->with('success', 'Data Kendaraan berhasil dihapus!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data Kendaraan berhasil dihapus!',
+        ], 200);
     }
 }
