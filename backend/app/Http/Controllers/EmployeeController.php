@@ -34,7 +34,7 @@ class EmployeeController extends Controller
 
         $validated['password'] = Hash::make($validated['password']);
 
-        $validated['created_by'] = auth()->id();
+        $validated['created_by'] = $request->user()->employees_id ?? 1;
 
         $employee = Employee::create($validated);
 
@@ -60,7 +60,7 @@ class EmployeeController extends Controller
             $validated['password'] = Hash::make($request->password);
         }
 
-        $validated['updated_by'] = auth()->id();
+        $validated['update_by'] = $request->user()->employees_id ?? 1;
         $employee->update($validated);
 
         return response()->json([
