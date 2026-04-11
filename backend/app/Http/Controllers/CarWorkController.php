@@ -6,22 +6,15 @@ use App\Models\CarWork;
 use App\Models\Customer;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CarWorkController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $carWorks = CarWork::orderBy('created_at', 'desc')->get();
-        return view('backend.car_works.index', compact('carWorks'));
+        return response()->json(['status' => 'success', 'data' => $carWorks], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -32,7 +25,6 @@ class CarWorkController extends Controller
             'sparepart_used_amount' => 'nullable|string',
         ]);
 
-        // Auto-fill snapshot data dari relasi biar admin gak ngetik ulang dua kali
         $customer = Customer::findOrFail($validated['customer_id']);
         $vehicle = Vehicle::findOrFail($validated['vehicle_id']);
 
@@ -43,22 +35,15 @@ class CarWorkController extends Controller
         $validated['license_plate'] = $vehicle->license_plate;
         $validated['engine_code'] = $vehicle->engine_code;
         $validated['odometer'] = $vehicle->odometer;
+        $validated['created_by'] = $request->user()->employees_id ?? 1;
 
-        $validated['created_by'] = Auth::user()->employees_id;
-
-        CarWork::create($validated);
-
-        return redirect()->back()->with('success', 'Log pengerjaan mobil berhasil dicatat!');
+        $carWork = CarWork::create($validated);
+        return response()->json(['status' => 'success', 'message' => 'Log pengerjaan dicatat', 'data' => $carWork], 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        $carWork = CarWork::findOrFail($id);
-        $carWork->delete();
-
-        return redirect()->back()->with('success', 'Log pengerjaan dihapus!');
+        CarWork::findOrFail($id)->delete();
+        return response()->json(['status' => 'success', 'message' => 'Log dihapus'], 200);
     }
 }

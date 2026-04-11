@@ -4,16 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\TransactionItem;
 use App\Models\Sparepart;
-use App\Models\ServiceTransaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TransactionItemController extends Controller
 {
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -27,35 +21,29 @@ class TransactionItemController extends Controller
 
         $validated['subtotal'] = $validated['qty'] * $validated['price'];
 
+        // Logic potong stok sparepart
         if ($validated['item_type'] == 'Parts' && $validated['spare_part_id']) {
             $sparepart = Sparepart::findOrFail($validated['spare_part_id']);
-
             if ($sparepart->quantity < $validated['qty']) {
-                return redirect()->back()->with('error', 'Stok sparepart tidak mencukupi!');
+                return response()->json(['status' => 'error', 'message' => 'Stok tidak mencukupi'], 400);
             }
-
             $sparepart->decrement('quantity', $validated['qty']);
         }
 
-        TransactionItem::create($validated);
-
-        return redirect()->back()->with('success', 'Item berhasil ditambahkan ke tagihan!');
+        $item = TransactionItem::create($validated);
+        return response()->json(['status' => 'success', 'message' => 'Item ditambahkan', 'data' => $item], 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $item = TransactionItem::findOrFail($id);
 
+        // Kembalikan stok kalau item dihapus
         if ($item->item_type == 'Parts' && $item->spare_part_id) {
-            Sparepart::where('sparepart_id', $item->spare_part_id)
-                ->increment('quantity', $item->qty);
+            Sparepart::where('sparepart_id', $item->spare_part_id)->increment('quantity', $item->qty);
         }
 
         $item->delete();
-
-        return redirect()->back()->with('success', 'Item berhasil dihapus dan stok dikembalikan!');
+        return response()->json(['status' => 'success', 'message' => 'Item dihapus dan stok dikembalikan'], 200);
     }
 }

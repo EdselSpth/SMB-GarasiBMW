@@ -4,22 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\ItemCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ItemCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $categories = ItemCategory::orderBy('created_at', 'desc')->get();
-        return view('backend.item_categories.index', compact('categories'));
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data kategori berhasil ditarik',
+            'data' => $categories
+        ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -27,18 +25,18 @@ class ItemCategoryController extends Controller
             'descriptions' => 'nullable|string',
         ]);
 
-        // Catat admin yang bikin kategorinya
-        $validated['employee_id'] = Auth::user()->employees_id;
-        $validated['created_by'] = Auth::user()->employees_id;
+        $validated['employee_id'] = $request->user()->employees_id ?? 1;
+        $validated['created_by'] = $request->user()->employees_id ?? 1;
 
-        ItemCategory::create($validated);
+        $category = ItemCategory::create($validated);
 
-        return redirect()->back()->with('success', 'Kategori baru berhasil ditambahkan!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Kategori baru berhasil ditambahkan!',
+            'data' => $category
+        ], 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $category = ItemCategory::findOrFail($id);
@@ -48,19 +46,25 @@ class ItemCategoryController extends Controller
             'descriptions' => 'nullable|string',
         ]);
 
-        $validated['edited_by'] = Auth::user()->employees_id;
+        $validated['edited_by'] = $request->user()->employees_id ?? 1;
 
         $category->update($validated);
 
-        return redirect()->back()->with('success', 'Kategori berhasil diupdate!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Kategori berhasil diupdate!',
+            'data' => $category
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $category = ItemCategory::findOrFail($id);
         $category->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Kategori berhasil dihapus!',
+        ], 200);
     }
 }
