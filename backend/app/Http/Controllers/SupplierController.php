@@ -7,10 +7,25 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $suppliers = Supplier::orderBy('created_at', 'desc')->get();
-        return response()->json(['status' => 'success', 'data' => $suppliers], 200);
+        $query = Supplier::query();
+
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where('name', 'LIKE', "%{$search}%")
+                ->orWhere('description', 'LIKE', "%{$search}%");
+        }
+
+        $suppliers = $query->orderBy('created_at', 'desc')->paginate($request->limit ?? 10);
+        return response()->json($suppliers, 200);
+    }
+
+    public function show($id)
+    {
+        $supplier = Supplier::find($id);
+        if (!$supplier) return response()->json(['message' => 'Supplier gak ada brok'], 404);
+        return response()->json(['status' => 'success', 'data' => $supplier], 200);
     }
 
     public function store(Request $request)

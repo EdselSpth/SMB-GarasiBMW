@@ -17,7 +17,7 @@ class AdditionalIncomeController extends Controller
             'disbursement_method' => 'required|in:bulan ini,akhir tahun,bulan ke 40',
         ]);
 
-        $validated['created_by'] = auth()->id();
+        $validated['created_by'] = $request->user()->employees_id ?? 1;
         $income = AdditionalIncome::create($validated);
         return response()->json(['status' => 'success', 'message' => 'Komponen dicatat', 'data' => $income], 201);
     }

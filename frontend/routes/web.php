@@ -14,12 +14,18 @@ Route::get('/jenis-mesin', function () {
 Route::get('/jenis-mesin/tambah', function () {
     return view('pages.master_data.jenis_mesin.tambahJenisMesin');
 })->name('jenis-mesin.create');
-Route::get('/jenis-mesin/detail', function () {
-    return view('pages.master_data.jenis_mesin.detailJenisMesin');
+Route::get('/master-data/jenis-mesin/detail/{id}', function ($id) {
+    return view('pages.master_data.jenis_mesin.detailJenisMesin', compact('id'));
 })->name('jenis-mesin.show');
+Route::get('/master-data/jenis-mesin/edit/{id}', function ($id) {
+    return view('pages.master_data.jenis_mesin.editJenisMesin');
+})->name('jenis-mesin.edit');
+Route::get('/master-data/jenis-mesin/delete/{id}', function ($id) {
+    return view('pages.master_data.jenis_mesin.jenisMesin');
+})->name('jenis-mesin.delete');
 
 
-Route::get('/manajemen-karyawan', function (){
+Route::get('/manajemen-karyawan', function () {
     return view('pages.manajemen_pegawai.data_manajemenPegawai');
 });
 
@@ -27,12 +33,21 @@ Route::get('/manajemen-karyawan', function (){
 Route::get('/jenis-mobil', function () {
     return view('pages.master_data.jenis_mobil.jenisMobil');
 })->name('jenis-mobil.index');
+
 Route::get('/jenis-mobil/tambah', function () {
     return view('pages.master_data.jenis_mobil.tambahJenisMobil');
 })->name('jenis-mobil.create');
-Route::get('/jenis-mobil/detail', function () {
+
+Route::get('/jenis-mobil/detail/{id}', function ($id) {
     return view('pages.master_data.jenis_mobil.detailJenisMobil');
 })->name('jenis-mobil.show');
+
+Route::get('/jenis-mobil/edit/{id}', function ($id) {
+    return view('pages.master_data.jenis_mobil.editJenisMobil');
+})->name('jenis-mobil.edit');
+Route::get('/jenis-mobil/delete/{id}', function ($id) {
+    return view('pages.master_data.jenis_mobil.jenisMobil');
+})->name('jenis-mobil.delete');
 
 //ini buat route kategori sparepart ya ge ya
 Route::get('/kategori-sparepart', function () {
@@ -41,9 +56,15 @@ Route::get('/kategori-sparepart', function () {
 Route::get('/kategori-sparepart/tambah', function () {
     return view('pages.master_data.kategori_sparepart.tambahKategoriSparepart');
 })->name('kategori-sparepart.create');
-Route::get('/kategori-sparepart/detail', function () {
+Route::get('/kategori-sparepart/detail/{id}', function ($id) {
     return view('pages.master_data.kategori_sparepart.detailKategoriSparepart');
 })->name('kategori-sparepart.show');
+Route::get('/kategori-sparepart/edit/{id}', function ($id) {
+    return view('pages.master_data.kategori_sparepart.editKategoriSparepart');
+})->name('kategori-sparepart.edit');
+Route::get('/kategori-sparepart/delete/{id}', function ($id) {
+    return view('pages.master_data.kategori_sparepart.kategoriSparepart');
+})->name('kategori-sparepart.delete');
 
 //ini buat route rupplier ya teman temanku
 Route::get('/supplier', function () {
@@ -52,9 +73,15 @@ Route::get('/supplier', function () {
 Route::get('/supplier/tambah', function () {
     return view('pages.master_data.supplier.tambahSupplier');
 })->name('supplier.create');
-Route::get('/supplier/detail', function () {
+Route::get('/supplier/detail/{id}', function ($id) {
     return view('pages.master_data.supplier.detailSupplier');
 })->name('supplier.show');
+Route::get('/supplier/edit/{id}', function ($id) {
+    return view('pages.master_data.supplier.editSupplier');
+})->name('supplier.edit');
+Route::get('/supplier/delete/{id}', function ($id) {
+    return view('pages.master_data.supplier.supplier');
+})->name('supplier.delete');
 
 Route::get('/suku-cadang', function () {
     return view('pages.suku_cadang.sukuCadang');
