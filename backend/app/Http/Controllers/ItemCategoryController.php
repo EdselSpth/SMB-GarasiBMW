@@ -7,14 +7,30 @@ use Illuminate\Http\Request;
 
 class ItemCategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = ItemCategory::orderBy('created_at', 'desc')->get();
+        $query = ItemCategory::query();
+
+        // Filter Pencarian Berdasarkan Nama Kategori
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where('name', 'LIKE', "%{$search}%");
+        }
+
+        // Pakai paginate biar sinkron sama footer tabel
+        $categories = $query->orderBy('created_at', 'desc')->paginate($request->limit ?? 10);
+
+        return response()->json($categories, 200);
+    }
+
+    public function show($id)
+    {
+        $category = ItemCategory::findOrFail($id);
 
         return response()->json([
             'status' => 'success',
             'message' => 'Data kategori berhasil ditarik',
-            'data' => $categories
+            'data' => $category
         ], 200);
     }
 
