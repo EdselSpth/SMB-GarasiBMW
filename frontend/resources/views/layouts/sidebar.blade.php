@@ -23,7 +23,7 @@
             <span class="font-bold text-[15px]">Beranda</span>
         </a>
 
-        @foreach (['Layanan Servis', 'Manajemen Stok', 'Kepegawaian'] as $menu)
+        @foreach (['Layanan Servis', 'Manajemen Stok'] as $menu)
             <a href="#"
                 class="flex items-center justify-between px-[16px] py-[12px] rounded-[10px] text-[#213F5C] hover:bg-white/50 group transition-all">
                 <div class="flex items-center gap-[14px]">
@@ -41,6 +41,43 @@
                 </svg>
             </a>
         @endforeach
+
+        <div class="pt-[4px]" x-data="{ open: false }">
+            <button @click="open = !open" class="w-full flex items-center justify-between px-[16px] py-[12px] rounded-[10px] text-[#213F5C] font-bold">
+                <div class="flex items-center gap-[14px]">
+                    <svg class="w-[22px] h-[22px] text-bmw-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <span class="text-[15px]">Kepegawaian</span>
+                </div>
+                <svg :class="open ? 'rotate-180' : 'rotate-0'" class="w-[14px] h-[14px] text-bmw-blue transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+
+            <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="mt-[4px] space-y-[2px]">
+                <div class="mx-[12px]">
+                    <a href="{{ url('/manajemen-pegawai') }}" class="block pl-[40px] py-[12px] text-[14px] font-medium transition-colors rounded-[10px] {{ request()->is('manajemen-pegawai*') ? 'text-[#213F5C] font-bold bg-bmw-active-btn' : 'text-[#526D82] hover:text-bmw-blue pl-[52px]' }}">
+                        Data Pegawai
+                    </a>
+                </div>
+                <div class="mx-[12px]">
+                    <a href="{{ url('/laporan-absensi') }}" class="block pl-[40px] py-[12px] text-[14px] font-medium transition-colors rounded-[10px] {{ request()->is('laporan-absensi*') ? 'text-[#213F5C] font-bold bg-bmw-active-btn' : 'text-[#526D82] hover:text-bmw-blue pl-[52px]' }}">
+                        Laporan Absensi
+                    </a>
+                </div>
+                <div class="mx-[12px]">
+                    <a href="{{ url('/izin-terlambat') }}" class="block pl-[40px] py-[12px] text-[14px] font-medium transition-colors rounded-[10px] {{ request()->is('izin-terlambat*') ? 'text-[#213F5C] font-bold bg-bmw-active-btn' : 'text-[#526D82] hover:text-bmw-blue pl-[52px]' }}">
+                        Pendataan Izin
+                    </a>
+                </div>
+                <div class="mx-[12px]">
+                    <a href="{{ url('/payroll') }}" class="block pl-[40px] py-[12px] text-[14px] font-medium transition-colors rounded-[10px] {{ request()->is('payroll*') ? 'text-[#213F5C] font-bold bg-bmw-active-btn' : 'text-[#526D82] hover:text-bmw-blue pl-[52px]' }}">
+                        Penggajian
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <div class="pt-[4px]" x-data="{ open: true }">
             <button @click="open = !open"
