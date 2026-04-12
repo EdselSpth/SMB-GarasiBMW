@@ -18,6 +18,8 @@ use App\Http\Controllers\AdditionalIncomeController;
 use App\Http\Controllers\SavingController;
 use App\Http\Controllers\CarWorkController;
 
+use function Pest\Laravel\get;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -50,6 +52,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('suppliers', SupplierController::class);
     Route::apiResource('car-types', CarTypeController::class);
     Route::apiResource('engine-types', EngineTypeController::class);
+    Route::get('/car-series', [CarTypeController::class, 'getUniqueSeries']);
+    Route::get('/engine-options', [EngineTypeController::class, 'getFilterOptions']);
 
     // Route API Resources yang dibatasi (cuma bisa store dan destroy)
     Route::apiResource('transaction-items', TransactionItemController::class)->only(['store', 'destroy']);

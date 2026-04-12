@@ -47,7 +47,7 @@ class CustomerController extends Controller
             'address' => 'required|string',
         ]);
 
-        $validated['created_by'] = $request->user()->employees_id ?? 1;
+        $validated['edited_by'] = $request->user()->employees_id ?? 1;
 
         $customer->update($validated);
 

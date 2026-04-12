@@ -2,11 +2,11 @@
 
 <div class="flex items-center justify-between mb-5">
     <div class="relative w-[340px]">
-        <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#627D98]" fill="none"
-            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#627D98]" fill="none" stroke="currentColor"
+            stroke-width="2" viewBox="0 0 24 24">
             <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
         </svg>
-        <input type="text" name="search" value="{{ request('search') }}"
+        <input type="text" id="searchInput" name="search" value="{{ request('search') }}"
             placeholder="{{ $placeholder ?? 'Cari data...' }}"
             class="w-full pl-10 pr-4 py-3 bg-white border border-[#D9E2EC] rounded-[10px] outline-none shadow-sm focus:border-bmw-blue focus:ring-1 focus:ring-bmw-blue/20 transition-all text-[14px]">
     </div>
