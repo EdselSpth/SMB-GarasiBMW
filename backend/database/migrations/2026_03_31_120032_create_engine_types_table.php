@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id('engine_type_id');
             $table->string('name', 255);
             $table->string('cylinders', 255);
-            $table->decimal('oil_cap', 3, 2);
+            $table->decimal('oil_cap', 5, 2);
             $table->enum('fuel_type', ['Bensin', 'Diesel']);
-            $table->decimal('engine_cap', 4, 2);
+            $table->integer('engine_cap');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('edited_by')->nullable();
             $table->timestamps();
