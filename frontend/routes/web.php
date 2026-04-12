@@ -89,7 +89,7 @@ Route::get('/supplier/delete/{id}', function ($id) {
 // Route Kepegawaian -> Data Karyawan
 Route::get('/manajemen-pegawai', function () {
     return view('pages.manajemen_pegawai.data_manajemenPegawai');
-});
+})->name('manajemen-pegawai.index');
 
 // Route Kepegawaian -> Laporan Absensi
 Route::get('/laporan-absensi', function () {
@@ -99,17 +99,17 @@ Route::get('/laporan-absensi', function () {
 // Route Kepegawaian -> Pendataan Izin
 Route::get('/izin-terlambat', function () {
     return view('pages.izin_keterlambatan.manajemenIzinKeterlambatan');
-});
+})->name('izin-terlambat.index');
 
 // Route Kepegawaian -> Penggajian
 Route::get('/payroll', function () {
     return view('pages.payroll.payroll');
-});
+})->name('payroll.index');
 
 // Route Layanan Servis -> Penerimaan Servis
 Route::get('/manajemen-servis', function () {
     return view('pages.manajemen_servis_mobil.manajemenServisMobil');
-});
+})->name('manajemen-servis.index');
 
 // Route Layanan Servis -> Antrian Pengerjaan 
 // Masih belum ada
@@ -120,4 +120,4 @@ Route::get('/manajemen-servis', function () {
 // Route Manajemen Stok -> Data Suku Cadang
 Route::get('/suku-cadang', function () {
     return view('pages.suku_cadang.sukuCadang');
-});
+})->name('suku-cadang.index');
