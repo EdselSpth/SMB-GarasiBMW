@@ -124,3 +124,12 @@ Route::get('/suku-cadang', function () {
 Route::get('/suku-cadang/tambah', function () {
     return view('pages.suku_cadang.tambahSukuCadang');
 })->name('suku-cadang.create');
+Route::get('/suku-cadang/detail/{id}', function ($id) {
+    return view('pages.suku_cadang.detailSukuCadang');
+})->name('suku-cadang.show');
+Route::get('/suku-cadang/edit/{id}', function ($id) {
+    return view('pages.suku_cadang.editSukuCadang');
+})->name('suku-cadang.edit');
+Route::get('/suku-cadang/delete/{id}', function ($id) { 
+    return view('pages.suku_cadang.sukuCadang');
+})->name('suku-cadang.delete');
