@@ -73,7 +73,7 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         $employee = Employee::findOrFail($id);
-        $employee->update(['status' => false]); // Soft delete / nonaktifkan
+        $employee->update(['status' => false]);
 
         return response()->json([
             'status' => 'success',

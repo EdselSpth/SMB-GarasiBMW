@@ -1,18 +1,18 @@
 @extends('layouts.master')
 
-@section('title', 'Tambah Pelanggan')
+@section('title', 'Edit Pelanggan')
 @section('title_header', 'Data Pelanggan')
 
 {{-- 1. Ikon Header --}}
 @section('form_icon')
     <div class="w-12 h-12 bg-[#1273EB] rounded-[15px] flex items-center justify-center text-white shadow-lg shadow-blue-200">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+            <path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path>
         </svg>
     </div>
 @endsection
 
-@section('form_title', 'Menambahkan Data Pelanggan Baru')
+@section('form_title', 'Mengubah Data Pelanggan')
 
 {{-- 2. Isi Form Utama (Kiri) --}}
 @section('form_fields')
@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        {{-- BOX 2: INFORMASI MOBIL (Logic asli lu tetap di sini) --}}
+        {{-- BOX 2: INFORMASI MOBIL --}}
         <div class="bg-white rounded-[20px] border border-[#E5E9F2] shadow-sm overflow-hidden">
             <div class="flex items-center gap-3 p-6 border-b border-gray-100 bg-white">
                 <div class="w-8 h-8 bg-[#F1F5F9] rounded-lg flex items-center justify-center text-[#213F5C]">
@@ -82,7 +82,7 @@
                     Tambah Mobil
                 </button>
 
-                {{-- FORM INPUT MOBIL (Sesuai kode awal lu brok) --}}
+                {{-- FORM INPUT MOBIL --}}
                 <div x-show="showForm" class="bg-[#F8FAFF] border border-[#D1E4FF] rounded-3xl p-8 space-y-6" x-transition x-cloak>
                     <h3 class="text-[14px] font-bold text-[#213F5C]" x-text="editIndex !== null ? 'Ubah Informasi Mobil Pelanggan' : 'Tambahkan Informasi Mobil Pelanggan'"></h3>
                     <div class="flex flex-col space-y-5">
@@ -135,8 +135,8 @@
 @section('content')
     @include('layouts.form_wrapper', [
         'backUrl' => route('pelanggan.index'),
-        'submitBtnText' => 'Simpan Data',
-        'submitBtnId' => 'submitBtnApi',
+        'submitBtnText' => 'Update Data',
+        'submitBtnId' => 'submitUpdateBtn',
         'submitBtnIcon' => '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>'
     ])
 
@@ -151,24 +151,51 @@
                 showForm: false,
                 editIndex: null,
                 token: localStorage.getItem('access_token'),
+                id: window.location.pathname.split('/').pop(),
 
                 async init() {
                     try {
-                        const res = await fetch('http://127.0.0.1:8000/api/car-types', {
+                        // 1. Load Car Types
+                        const resTypes = await fetch('http://127.0.0.1:8000/api/car-types', {
                             headers: { 'Authorization': `Bearer ${this.token}`, 'Accept': 'application/json' }
                         });
-                        const result = await res.json();
-                        this.carTypes = result.data.data || result.data || [];
-                    } catch (e) { console.error("Gagal muat model", e); }
-                    
-                    // Hook tombol simpan di sidebar
-                    const btn = document.getElementById('submitBtnApi');
-                    if(btn) btn.onclick = (e) => { e.preventDefault(); this.submitAllData(); };
+                        const resultTypes = await resTypes.json();
+                        this.carTypes = resultTypes.data.data || resultTypes.data || [];
+
+                        // 2. Load Data Pelanggan Existing
+                        const resCust = await fetch(`http://127.0.0.1:8000/api/customers/${this.id}`, {
+                            headers: { 'Authorization': `Bearer ${this.token}`, 'Accept': 'application/json' }
+                        });
+                        const resultCust = await resCust.json();
+
+                        if (resCust.ok) {
+                            const data = resultCust.data;
+                            this.formData.name = data.name;
+                            this.formData.phone_number = data.phone_number;
+                            this.formData.address = data.address;
+
+                            this.cars = data.vehicles.map(v => ({
+                                car_type_id: v.car_type_id,
+                                car_name: v.model,
+                                engine_name: v.engine_code,
+                                transmission: v.production_code,
+                                year: v.production_code,
+                                license_plate: v.license_plate,
+                                km_reading: v.odometer
+                            }));
+                        }
+                    } catch (e) { console.error("Gagal load data edit", e); }
+
+                    // Link tombol sidebar ke fungsi update
+                    document.getElementById('submitUpdateBtn').onclick = (e) => {
+                        e.preventDefault();
+                        this.submitUpdateData();
+                    };
                 },
 
                 updateAvailableEngines() {
                     const selected = this.carTypes.find(t => t.car_type_id == this.tempCar.car_type_id);
-                    this.availableEngines = selected && selected.engine_code ? selected.engine_code.split(',').map(s => s.trim()) : [];
+                    this.availableEngines = (selected && selected.engine_code) ? selected.engine_code.split(',').map(s => s.trim()) : [];
                     this.tempCar.engine_name = '';
                 },
 
@@ -188,7 +215,7 @@
                 },
 
                 addCarToList() {
-                    if (!this.tempCar.car_type_id || !this.tempCar.license_plate) return Swal.fire('Data Belum Lengkap!', 'Pilih model dan plat nomor brok.', 'warning');
+                    if (!this.tempCar.car_type_id || !this.tempCar.license_plate) return Swal.fire('Data Belum Lengkap!', 'Cek isian lu brok.', 'warning');
                     const model = this.carTypes.find(t => t.car_type_id == this.tempCar.car_type_id);
                     const carData = { ...this.tempCar, car_name: model ? model.name : '' };
                     if (this.editIndex !== null) { this.cars[this.editIndex] = carData; }
@@ -198,22 +225,22 @@
 
                 removeCar(index) { this.cars.splice(index, 1); },
 
-                async submitAllData() {
-                    if (!this.formData.name || this.cars.length === 0) return Swal.fire('Error', 'Nama dan minimal 1 mobil wajib ada brok!', 'error');
-                    Swal.fire({ title: 'Menyimpan...', didOpen: () => Swal.showLoading() });
+                async submitUpdateData() {
+                    if (!this.formData.name || this.cars.length === 0) return Swal.fire('Error', 'Nama dan minimal 1 mobil wajib ada!', 'error');
+                    Swal.fire({ title: 'Mengupdate...', didOpen: () => Swal.showLoading() });
                     try {
-                        const res = await fetch('http://127.0.0.1:8000/api/customers', {
-                            method: 'POST',
+                        const res = await fetch(`http://127.0.0.1:8000/api/customers/${this.id}`, {
+                            method: 'PUT',
                             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': `Bearer ${this.token}` },
                             body: JSON.stringify({ ...this.formData, cars: this.cars })
                         });
                         if (res.ok) {
-                            await Swal.fire({ icon: 'success', title: 'Berhasil!', timer: 2000, showConfirmButton: false });
-                            window.location.href = "{{ route('pelanggan.index') }}";
+                            await Swal.fire({ icon: 'success', title: 'Berhasil diupdate!', timer: 2000, showConfirmButton: false });
+                            window.location.href = `/pelanggan/detail/${this.id}`;
                         } else {
                             const err = await res.json(); Swal.fire('Gagal!', err.message, 'error');
                         }
-                    } catch (e) { Swal.fire('Error', 'API bermasalah brok', 'error'); }
+                    } catch (e) { Swal.fire('Error!', 'Koneksi bermasalah', 'error'); }
                 }
             }
         }

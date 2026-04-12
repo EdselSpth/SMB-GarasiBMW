@@ -42,12 +42,14 @@
                     const engineName = i.engine_type ? i.engine_type.name : '<span class="text-red-500 italic">Mesin belum diset</span>';
 
                     const detailHtml = `
-                                            <div class="flex pb-4 border-b border-gray-50"><p class="w-64 text-gray-400 font-medium uppercase text-[12px] tracking-wider">Kode Sasis</p><p class="font-bold text-bmw-dark">${i.chassis_number || '-'}</p></div>
-                                            <div class="flex pb-4 border-b border-gray-50"><p class="w-64 text-gray-400 font-medium uppercase text-[12px] tracking-wider">Nama Model</p><p class="font-bold text-bmw-dark">${i.name || '-'}</p></div>
-                                            <div class="flex pb-4 border-b border-gray-50"><p class="w-64 text-gray-400 font-medium uppercase text-[12px] tracking-wider">Seri</p><p class="font-bold text-bmw-dark">${i.series || '-'}</p></div>
-                                            <div class="flex pb-4 border-b border-gray-50"><p class="w-64 text-gray-400 font-medium uppercase text-[12px] tracking-wider">Jenis Mesin</p><p class="font-bold text-bmw-dark">${engineName}</p></div>
-                                            <div class="flex pb-4 border-b border-gray-50"><p class="w-64 text-gray-400 font-medium uppercase text-[12px] tracking-wider">Catatan Mesin</p><p class="font-bold text-bmw-dark">${i.engine_code || '-'}</p></div>
-                                        `;
+                        <div class="flex pb-4 border-b border-gray-50"><p class="w-64 text-gray-400 font-medium uppercase text-[12px] tracking-wider">Kode Sasis</p><p class="font-bold text-bmw-dark">${i.chassis_number}</p></div>
+                        <div class="flex pb-4 border-b border-gray-50"><p class="w-64 text-gray-400 font-medium uppercase text-[12px] tracking-wider">Nama Model</p><p class="font-bold text-bmw-dark">${i.name}</p></div>
+                        <div class="flex pb-4 border-b border-gray-50"><p class="w-64 text-gray-400 font-medium uppercase text-[12px] tracking-wider">Seri</p><p class="font-bold text-bmw-dark">${i.series}</p></div>
+                        <div class="flex pb-4 border-b border-gray-50">
+                            <p class="w-64 text-gray-400 font-medium uppercase text-[12px] tracking-wider">Daftar Kode Mesin</p>
+                            <p class="flex-1 font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg inline-block w-fit">${i.engine_code || '-'}</p>
+                        </div>
+                    `;
 
                     detailContainer.innerHTML = detailHtml;
 

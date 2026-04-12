@@ -25,7 +25,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Email atau password salah brok!'
-            ], 401); // 401 = Unauthorized
+            ], 401);
         }
 
         // 4. Cek apakah akunnya masih aktif
@@ -33,7 +33,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Akun lu udah non-aktif brok!'
-            ], 403); // 403 = Forbidden
+            ], 403);
         }
 
         // 5. Kalo semua aman, Generate Token Sanctum!
@@ -45,15 +45,14 @@ class AuthController extends Controller
             'data' => [
                 'user' => $employee,
                 'access_token' => $token,
-                'token_type' => 'Bearer' // Standar token API
+                'token_type' => 'Bearer'
             ]
         ], 200);
     }
 
-    // Fungsi buat logout (menghapus token)
+    // Fungsi buat logout
     public function logout(Request $request)
     {
-        // Hapus token yang lagi dipake buat transaksi ini
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
