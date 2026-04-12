@@ -59,7 +59,7 @@
         'filterModalId' => 'modalFilterSukuCadang',
         'exportExcelUrl' => '#',
         'exportPdfUrl' => '#',
-        'addUrl' => '#',
+        'addUrl' => route('suku-cadang.create'),
         'btnText' => 'Tambah Suku Cadang'
     ])
 

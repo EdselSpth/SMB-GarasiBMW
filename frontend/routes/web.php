@@ -121,3 +121,6 @@ Route::get('/manajemen-servis', function () {
 Route::get('/suku-cadang', function () {
     return view('pages.suku_cadang.sukuCadang');
 })->name('suku-cadang.index');
+Route::get('/suku-cadang/tambah', function () {
+    return view('pages.suku_cadang.tambahSukuCadang');
+})->name('suku-cadang.create');
