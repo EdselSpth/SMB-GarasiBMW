@@ -51,7 +51,7 @@
         'filterModalId' => 'modalFilterIzinKeterlambatan',
         'exportExcelUrl' => '#',
         'exportPdfUrl' => '#',
-        'addUrl' => '#',
+        'addUrl' => route('izin-terlambat.create'),
         'btnText' => 'Tambah Izin'
     ])
 
