@@ -2,12 +2,23 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Route Login
 Route::get('/', function () {
     return view('login');
 });
 
-//btw itu beberapa udah ku kasi ->name('bblablabla) biar kalo mau ganti link tinggal ganti aja gausah otak atik yg lain
-//ini buat route jenis mesin yah kawan
+// Route Master Data -> Pelanggan
+Route::get('/pelanggan', function () {
+    return view('pages.pelanggan.pelanggan');
+})->name('pelanggan.index');
+Route::get('/pelanggan/tambah', function () {
+    return view('pages.pelanggan.tambahPelanggan');
+})->name('pelanggan.create');
+Route::get('/pelanggan/detail', function () {
+    return view('pages.pelanggan.detailPelanggan');
+})->name('pelanggan.show');
+
+//Route Master Data -> Jenis Mesin
 Route::get('/jenis-mesin', function () {
     return view('pages.master_data.jenis_mesin.jenisMesin');
 })->name('jenis-mesin.index');
@@ -24,24 +35,16 @@ Route::get('/master-data/jenis-mesin/delete/{id}', function ($id) {
     return view('pages.master_data.jenis_mesin.jenisMesin');
 })->name('jenis-mesin.delete');
 
-
-Route::get('/manajemen-karyawan', function () {
-    return view('pages.manajemen_pegawai.data_manajemenPegawai');
-});
-
-//ini buat route jenis mobil ya kawan
+// Route Master Data -> Jenis Mobil
 Route::get('/jenis-mobil', function () {
     return view('pages.master_data.jenis_mobil.jenisMobil');
 })->name('jenis-mobil.index');
-
 Route::get('/jenis-mobil/tambah', function () {
     return view('pages.master_data.jenis_mobil.tambahJenisMobil');
 })->name('jenis-mobil.create');
-
 Route::get('/jenis-mobil/detail/{id}', function ($id) {
     return view('pages.master_data.jenis_mobil.detailJenisMobil');
 })->name('jenis-mobil.show');
-
 Route::get('/jenis-mobil/edit/{id}', function ($id) {
     return view('pages.master_data.jenis_mobil.editJenisMobil');
 })->name('jenis-mobil.edit');
@@ -49,7 +52,7 @@ Route::get('/jenis-mobil/delete/{id}', function ($id) {
     return view('pages.master_data.jenis_mobil.jenisMobil');
 })->name('jenis-mobil.delete');
 
-//ini buat route kategori sparepart ya ge ya
+//Route Master Data -> Kategori Sparepart
 Route::get('/kategori-sparepart', function () {
     return view('pages.master_data.kategori_sparepart.kategoriSparepart');
 })->name('kategori-sparepart.index');
@@ -66,7 +69,7 @@ Route::get('/kategori-sparepart/delete/{id}', function ($id) {
     return view('pages.master_data.kategori_sparepart.kategoriSparepart');
 })->name('kategori-sparepart.delete');
 
-//ini buat route rupplier ya teman temanku
+//Route Master Data -> Supplier
 Route::get('/supplier', function () {
     return view('pages.master_data.supplier.supplier');
 })->name('supplier.index');
@@ -83,40 +86,38 @@ Route::get('/supplier/delete/{id}', function ($id) {
     return view('pages.master_data.supplier.supplier');
 })->name('supplier.delete');
 
-Route::get('/suku-cadang', function () {
-    return view('pages.suku_cadang.sukuCadang');
-});
-
-Route::get('/izin-terlambat', function () {
-    return view('pages.izin_keterlambatan.manajemenIzinKeterlambatan');
-});
-
+// Route Kepegawaian -> Data Karyawan
 Route::get('/manajemen-pegawai', function () {
     return view('pages.manajemen_pegawai.data_manajemenPegawai');
 });
 
+// Route Kepegawaian -> Laporan Absensi
 Route::get('/laporan-absensi', function () {
     return view('pages.laporan_absensi.laporanAbsensi');
 })->name('laporan-absensi.index');
 
-Route::get('/manajemen-servis', function () {
-    return view('pages.manajemen_servis_mobil.manajemenServisMobil');
+// Route Kepegawaian -> Pendataan Izin
+Route::get('/izin-terlambat', function () {
+    return view('pages.izin_keterlambatan.manajemenIzinKeterlambatan');
 });
 
+// Route Kepegawaian -> Penggajian
 Route::get('/payroll', function () {
     return view('pages.payroll.payroll');
 });
 
-//ini route buat MasterData dataPelanggan
-Route::get('/pelanggan', function () {
-    return view('pages.pelanggan.pelanggan');
-})->name('pelanggan.index');
-Route::get('/pelanggan/tambah', function () {
-    return view('pages.pelanggan.tambahPelanggan');
-})->name('pelanggan.create');
-Route::get('/pelanggan/detail', function () {
-    return view('pages.pelanggan.detailPelanggan');
-})->name('pelanggan.show');
+// Route Layanan Servis -> Penerimaan Servis
+Route::get('/manajemen-servis', function () {
+    return view('pages.manajemen_servis_mobil.manajemenServisMobil');
+});
+
+Route::get('/manajemen-karyawan', function () {
+    return view('pages.manajemen_pegawai.data_manajemenPegawai');
+});
+
+Route::get('/suku-cadang', function () {
+    return view('pages.suku_cadang.sukuCadang');
+});
 
 Route::get('/suku-cadang', function () {
     return view('pages.suku_cadang.sukuCadang');
