@@ -14,9 +14,15 @@ Route::get('/pelanggan', function () {
 Route::get('/pelanggan/tambah', function () {
     return view('pages.pelanggan.tambahPelanggan');
 })->name('pelanggan.create');
-Route::get('/pelanggan/detail', function () {
+Route::get('/pelanggan/detail/{id}', function ($id) {
     return view('pages.pelanggan.detailPelanggan');
 })->name('pelanggan.show');
+Route::get('/pelanggan/edit/{id}', function ($id) {
+    return view('pages.pelanggan.editPelanggan');
+})->name('pelanggan.edit');
+Route::get('/pelanggan/delete/{id}', function ($id) {
+    return view('pages.pelanggan.pelanggan');
+})->name('pelanggan.delete');
 
 //Route Master Data -> Jenis Mesin
 Route::get('/jenis-mesin', function () {
@@ -142,6 +148,6 @@ Route::get('/suku-cadang/detail/{id}', function ($id) {
 Route::get('/suku-cadang/edit/{id}', function ($id) {
     return view('pages.suku_cadang.editSukuCadang');
 })->name('suku-cadang.edit');
-Route::get('/suku-cadang/delete/{id}', function ($id) { 
+Route::get('/suku-cadang/delete/{id}', function ($id) {
     return view('pages.suku_cadang.sukuCadang');
 })->name('suku-cadang.delete');

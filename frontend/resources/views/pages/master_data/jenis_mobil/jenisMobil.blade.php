@@ -70,7 +70,6 @@
             if (modal) modal.classList.toggle('hidden');
         }
 
-        // 1. Fungsi Utama Fetch
         async function fetchCarTypes(search = '', series = '', engine_id = '') {
             const tbody = document.getElementById('carTableBody');
             const fromEl = document.getElementById('paginationFrom');
@@ -87,7 +86,7 @@
                     tbody.innerHTML = '';
                     const items = result.data || [];
                     
-                    // LOGIC EMPTY STATE DENGAN SVG
+                    // --- LOGIC EMPTY STATE ---
                     if (items.length === 0) {
                         tbody.innerHTML = `
                             <tr>
@@ -96,8 +95,8 @@
                                         <svg class="w-24 h-24 text-gray-200 mb-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m16.5 0l-1.65-3.712A2.25 2.25 0 0016.597 2.5H7.403a2.25 2.25 0 00-2.003 1.288L3.75 7.5m16.5 0H3.75m16.5 0v1.5a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V7.5m10.5-1.125h.008v.008h-.008V6.375zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                                         </svg>
-                                        <h3 class="text-[16px] font-bold text-[#213F5C] mb-1">Data mobil tidak ditemukan</h3>
-                                        <p class="text-[13px] text-gray-400 font-medium">Coba cari seri lain atau tambahin data baru lewat tombol di atas.</p>
+                                        <h3 class="text-[16px] font-bold text-[#213F5C] mb-1">Mobil tidak ditemukan brok</h3>
+                                        <p class="text-[13px] text-gray-400 font-medium">Coba cari seri lain atau filter mesin yang berbeda.</p>
                                     </div>
                                 </td>
                             </tr>`;
@@ -108,15 +107,21 @@
                         return;
                     }
 
-                    // RENDER DATA (Kalo ada)
+                    // --- RENDER DATA ---
                     items.forEach(item => {
-                        const engineName = item.engine_type ? item.engine_type.name : 'N/A';
+                        // Gunakan engine_code biar daftar banyak mesinnya muncul
+                        const engineDisplay = item.engine_code 
+                            ? `<span class="px-3 py-1 bg-blue-50 text-[#1273EB] border border-blue-100 rounded-full text-[11px] font-bold">${item.engine_code}</span>` 
+                            : '<span class="text-gray-400 italic text-[12px]">Belum diset</span>';
+
                         tbody.innerHTML += `
                             <tr class="hover:bg-[#F9FCFF] transition-colors group">
                                 <td class="px-6 py-[18px] font-bold text-[#213F5C]">${item.chassis_number}</td>
                                 <td class="px-6 py-[18px] text-[#213F5C] font-semibold text-[13px]">${item.name}</td>
                                 <td class="px-6 py-[18px] text-[#213F5C] font-semibold text-[13px]">${item.series}</td>
-                                <td class="px-6 py-[18px] text-[#213F5C] font-semibold text-[13px]">${engineName}</td>
+                                <td class="px-6 py-[18px] text-[#213F5C] font-semibold text-[13px]">
+                                    ${engineDisplay}
+                                </td>
                                 <td class="px-6 py-[18px] text-center">
                                     <a href="/jenis-mobil/detail/${item.car_type_id}" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#EAF2FF] text-[#1273EB] border border-[#B1D3FF] rounded-full text-[12px] font-bold hover:bg-[#D4E8FF]">Detail</a>
                                 </td>
@@ -129,10 +134,9 @@
                 }
             } catch (e) { 
                 console.error(e); 
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-10 text-red-500 font-bold">Koneksi backend bermasalah brok.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="py-10 text-center text-red-500 font-bold">Koneksi API bermasalah brok.</td></tr>';
             }
         }
-
         // 2. Debounce Search
         document.getElementById('searchInput').addEventListener('input', (e) => {
             clearTimeout(timeout);

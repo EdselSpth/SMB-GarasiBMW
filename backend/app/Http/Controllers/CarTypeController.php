@@ -11,23 +11,29 @@ class CarTypeController extends Controller
     {
         $query = CarType::with('engineType');
 
-        // Filter Pencarian Umum (Nama atau Chassis)
-        if ($request->has('search')) {
+        // 1. Filter Pencarian Umum (Nama, Sasis, atau Kode Mesin)
+        if ($request->has('search') && $request->search != '') {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'LIKE', "%{$search}%")
-                    ->orWhere('chassis_number', 'LIKE', "%{$search}%");
+                    ->orWhere('chassis_number', 'LIKE', "%{$search}%")
+                    ->orWhere('engine_code', 'LIKE', "%{$search}%");
             });
         }
 
-        // Filter Spesifik Seri
+        // 2. Filter Spesifik Seri
         if ($request->filled('series')) {
-            $query->where('name', $request->series);
+            $query->where('series', $request->series);
         }
 
-        // Filter Berdasarkan Mesin
+        // 3. Cari teks nama mesin di kolom engine_code
         if ($request->filled('engine_type_id')) {
-            $query->where('engine_type_id', $request->engine_type_id);
+            $engine = \App\Models\EngineType::find($request->engine_type_id);
+
+            if ($engine) {
+                $engineName = $engine->name;
+                $query->where('engine_code', 'LIKE', "%{$engineName}%");
+            }
         }
 
         return $query->orderBy('created_at', 'desc')->paginate($request->limit ?? 10);
@@ -50,29 +56,57 @@ class CarTypeController extends Controller
             'chassis_number' => 'required|string',
             'name'           => 'required|string',
             'series'         => 'required|string',
-            'engine_type_id' => 'required|exists:engine_types,engine_type_id', // WAJIB ADA & HARUS ADA DI TABEL ENGINE_TYPES
-            'engine_code'    => 'nullable|string',
+            'engine_ids'     => 'required|array',
+            'engine_ids.*'   => 'exists:engine_types,engine_type_id',
         ]);
-        $validated['created_by'] = $request->user()->employees_id ?? 1;
 
-        $carType = CarType::create($validated);
-        return response()->json(['status' => 'success', 'message' => 'Tipe Mobil ditambahkan', 'data' => $carType], 201);
+        // 1. Ambil nama-nama mesin buat engine_code
+        $engineNames = \App\Models\EngineType::whereIn('engine_type_id', $request->engine_ids)
+            ->pluck('name')
+            ->toArray();
+
+        // 2. Set data yang mau masuk ke database
+        $dataToSave = [
+            'chassis_number' => $validated['chassis_number'],
+            'name'           => $validated['name'],
+            'series'         => $validated['series'],
+            'engine_code'    => implode(', ', $engineNames),
+            'engine_type_id' => $request->engine_ids[0], // Ambil yang pertama
+            'created_by'     => $request->user()->employees_id ?? 1,
+        ];
+
+        // 3. Simpan pakai $dataToSave, JANGAN pakai $validated
+        $carType = CarType::create($dataToSave);
+
+        return response()->json(['status' => 'success', 'data' => $carType], 201);
     }
 
     public function update(Request $request, $id)
     {
         $carType = CarType::findOrFail($id);
         $validated = $request->validate([
-            'chassis_number' => 'required|string|max:255',
-            'name'           => 'required|string|max:255',
-            'series'         => 'required|string|max:255',
-            'engine_type_id' => 'required|exists:engine_types,engine_type_id', // Tambahin ini brok!
-            'engine_code'    => 'nullable|string|max:255',
+            'chassis_number' => 'required|string',
+            'name'           => 'required|string',
+            'series'         => 'required|string',
+            'engine_ids'     => 'required|array',
         ]);
-        $validated['edited_by'] = $request->user()->employees_id ?? 1;
 
-        $carType->update($validated);
-        return response()->json(['status' => 'success', 'message' => 'Tipe Mobil diupdate'], 200);
+        $engineNames = \App\Models\EngineType::whereIn('engine_type_id', $request->engine_ids)
+            ->pluck('name')
+            ->toArray();
+
+        $dataToUpdate = [
+            'chassis_number' => $validated['chassis_number'],
+            'name'           => $validated['name'],
+            'series'         => $validated['series'],
+            'engine_code'    => implode(', ', $engineNames),
+            'engine_type_id' => $request->engine_ids[0],
+            'edited_by'      => $request->user()->employees_id ?? 1,
+        ];
+
+        $carType->update($dataToUpdate);
+
+        return response()->json(['status' => 'success', 'message' => 'Data terupdate'], 200);
     }
 
     public function destroy($id)
@@ -80,15 +114,14 @@ class CarTypeController extends Controller
         CarType::findOrFail($id)->delete();
         return response()->json(['status' => 'success', 'message' => 'Tipe Mobil dihapus'], 200);
     }
-    // Tambahkan di CarTypeController.php
     public function getUniqueSeries()
     {
-        // Mengambil field 'name' yang unik dari tabel car_types
-        $series = \App\Models\CarType::whereNotNull('name')
-            ->where('name', '!=', '')
+        // AMBIL DARI KOLOM 'series', BUKAN 'name'
+        $series = \App\Models\CarType::whereNotNull('series')
+            ->where('series', '!=', '')
             ->distinct()
-            ->orderBy('name', 'asc')
-            ->pluck('name'); // Ambil field 'name' sesuai koreksi lu
+            ->orderBy('series', 'asc')
+            ->pluck('series'); // Pastiin ini 'series' brok!
 
         return response()->json([
             'status' => 'success',

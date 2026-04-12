@@ -35,8 +35,8 @@ class AttendanceController extends Controller
         if ($alreadyClockedIn) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Lu udah absen hari ini brok!'
-            ], 400); // 400 Bad Request
+                'message' => 'Lu udah absen hari ini!'
+            ], 400);
         }
 
         $photoPath = $request->file('photo')->store('attendances', 'public');

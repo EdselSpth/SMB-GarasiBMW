@@ -9,7 +9,6 @@ class SparepartController extends Controller
 {
     public function index()
     {
-        // Tetep narik relasi category dan supplier biar frontend gampang nampilinnya
         $spareparts = Sparepart::with(['category', 'supplier'])->orderBy('created_at', 'desc')->get();
 
         return response()->json([
@@ -33,8 +32,7 @@ class SparepartController extends Controller
             'date' => 'required|date',
         ]);
 
-        // Ini pake ID user yang lagi login via API token nanti
-        $validated['created_by'] = $request->user()->employees_id ?? 1; // Fallback ke 1 buat testing sementara
+        $validated['created_by'] = $request->user()->employees_id ?? 1;
 
         $sparepart = Sparepart::create($validated);
 

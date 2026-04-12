@@ -21,7 +21,6 @@ class TransactionItemController extends Controller
 
         $validated['subtotal'] = $validated['qty'] * $validated['price'];
 
-        // Logic potong stok sparepart
         if ($validated['item_type'] == 'Parts' && $validated['spare_part_id']) {
             $sparepart = Sparepart::findOrFail($validated['spare_part_id']);
             if ($sparepart->quantity < $validated['qty']) {
@@ -38,7 +37,6 @@ class TransactionItemController extends Controller
     {
         $item = TransactionItem::findOrFail($id);
 
-        // Kembalikan stok kalau item dihapus
         if ($item->item_type == 'Parts' && $item->spare_part_id) {
             Sparepart::where('sparepart_id', $item->spare_part_id)->increment('quantity', $item->qty);
         }

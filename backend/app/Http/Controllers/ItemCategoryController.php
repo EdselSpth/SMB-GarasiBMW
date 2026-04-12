@@ -11,13 +11,11 @@ class ItemCategoryController extends Controller
     {
         $query = ItemCategory::query();
 
-        // Filter Pencarian Berdasarkan Nama Kategori
         if ($request->has('search')) {
             $search = $request->search;
             $query->where('name', 'LIKE', "%{$search}%");
         }
 
-        // Pakai paginate biar sinkron sama footer tabel
         $categories = $query->orderBy('created_at', 'desc')->paginate($request->limit ?? 10);
 
         return response()->json($categories, 200);
