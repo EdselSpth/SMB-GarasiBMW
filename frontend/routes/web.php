@@ -111,14 +111,13 @@ Route::get('/manajemen-servis', function () {
     return view('pages.manajemen_servis_mobil.manajemenServisMobil');
 });
 
-Route::get('/manajemen-karyawan', function () {
-    return view('pages.manajemen_pegawai.data_manajemenPegawai');
-});
+// Route Layanan Servis -> Antrian Pengerjaan 
+// Masih belum ada
 
-Route::get('/suku-cadang', function () {
-    return view('pages.suku_cadang.sukuCadang');
-});
+// Route Layanan Servis -> Riwayat Transaksi
+// Masih belum ada
 
+// Route Manajemen Stok -> Data Suku Cadang
 Route::get('/suku-cadang', function () {
     return view('pages.suku_cadang.sukuCadang');
 });
