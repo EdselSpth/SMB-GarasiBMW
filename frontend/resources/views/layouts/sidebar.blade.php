@@ -69,6 +69,13 @@
                         Riwayat Transaksi
                     </a>
                 </div>
+                <div class="mx-[12px]">
+                    <a href="{{ route('pelanggan.index') }}"
+                        class="block pl-[40px] py-[12px] text-[14px] font-medium transition-colors rounded-[10px]
+                        {{ request()->is('pelanggan*') ? 'text-[#213F5C] font-bold bg-bmw-active-btn' : 'text-[#526D82] hover:text-bmw-blue' }}">
+                        Data Pelanggan
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -188,13 +195,6 @@
                 x-transition:leave-start="opacity-100 translate-y-0"
                 x-transition:leave-end="opacity-0 -translate-y-2"
                 class="mt-[4px] space-y-[2px]">
-                <div class="mx-[12px]">
-                    <a href="{{ route('pelanggan.index') }}"
-                        class="block pl-[40px] py-[12px] text-[14px] font-medium transition-colors rounded-[10px]
-                        {{ request()->is('pelanggan*') ? 'text-[#213F5C] font-bold bg-bmw-active-btn' : 'text-[#526D82] hover:text-bmw-blue' }}">
-                        Data Pelanggan
-                    </a>
-                </div>
                 <div class="mx-[12px]">
                     <a href="{{ route('jenis-mobil.index') }}"
                         class="block pl-[40px] py-[12px] text-[14px] font-medium transition-colors rounded-[10px]

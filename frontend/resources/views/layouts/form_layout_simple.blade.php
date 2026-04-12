@@ -1,6 +1,5 @@
 {{-- resources/views/layouts/form_layout_simple.blade.php --}}
 <div class="w-full grid grid-cols-12 gap-6">
-    {{-- Kolom Kiri --}}
     <div class="col-span-9">
         <div class="bg-white rounded-[20px] border border-[#E5E9F2] shadow-sm overflow-hidden">
             {{-- Header Section --}}
@@ -16,7 +15,6 @@
         </div>
     </div>
 
-    {{-- Kolom Kanan (KOPAS LANGSUNG DARI FORM_WRAPPER LU) --}}
     <div class="col-span-3 space-y-6">
             <div class="bg-white rounded-[20px] border border-[#E5E9F2] p-6 shadow-sm">
                 <div class="flex items-center gap-2 mb-6 pb-3 border-b border-gray-50">
@@ -40,7 +38,6 @@
                 </div>
             </div>
 
-            {{-- Box Tombol Action --}}
             <div class="space-y-3">
                 <button type="submit" class="w-full flex items-center justify-center gap-2 py-4 bg-[#1273EB] text-white rounded-xl font-bold text-[15px] hover:bg-[#0E59B8] transition-all shadow-lg shadow-blue-100">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
