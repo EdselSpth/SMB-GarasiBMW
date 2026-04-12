@@ -100,6 +100,18 @@ Route::get('/laporan-absensi', function () {
 Route::get('/izin-terlambat', function () {
     return view('pages.izin_keterlambatan.manajemenIzinKeterlambatan');
 })->name('izin-terlambat.index');
+Route::get('/izin-terlambat/tambah', function () {
+    return view('pages.izin_keterlambatan.tambahIzinKeterlambatan');
+})->name('izin-terlambat.create');
+Route::get('/izin-terlambat/detail/{id}', function ($id) {
+    return view('pages.izin_keterlambatan.detailIzinKeterlambatan');
+})->name('izin-terlambat.show');
+Route::get('/izin-terlambat/edit/{id}', function ($id) {
+    return view('pages.izin_keterlambatan.editIzinKeterlambatan');
+})->name('izin-terlambat.edit');
+Route::get('/izin-terlambat/delete/{id}', function ($id) {
+    return view('pages.izin_keterlambatan.manajemenIzinKeterlambatan');
+})->name('izin-terlambat.delete');
 
 // Route Kepegawaian -> Penggajian
 Route::get('/payroll', function () {
