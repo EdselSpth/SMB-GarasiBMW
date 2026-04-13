@@ -90,6 +90,18 @@ Route::get('/supplier/delete/{id}', function ($id) {
 Route::get('/manajemen-pegawai', function () {
     return view('pages.manajemen_pegawai.data_manajemenPegawai');
 })->name('manajemen-pegawai.index');
+Route::get('/manajemen-pegawai/tambah', function () {
+    return view('pages.manajemen_pegawai.tambahdata_manajemenPegawai');
+})->name('manajemen-pegawai.create');
+Route::get('/manajemen-pegawai/detail/{id}', function ($id) {
+    return view('pages.manajemen_pegawai.detaildata_manajemenPegawai');
+})->name('manajemen-pegawai.show');
+Route::get('/manajemen-pegawai/edit/{id}', function ($id) {
+    return view('pages.manajemen_pegawai.editdata_manajemenPegawai');
+})->name('manajemen-pegawai.edit');
+Route::get('/manajemen-pegawai/delete/{id}', function ($id) {
+    return view('pages.manajemen_pegawai.data_manajemenPegawai');
+})->name('manajemen-pegawai.delete');
 
 // Route Kepegawaian -> Laporan Absensi
 Route::get('/laporan-absensi', function () {

@@ -50,7 +50,7 @@
         'filterModalId' => 'modalFilterKaryawan',
         'exportExcelUrl' => '#',
         'exportPdfUrl' => '#',
-        'addUrl' => '#',
+        'addUrl' => route('manajemen-pegawai.create'),
         'btnText' => 'Tambah Akun'
     ])
 
