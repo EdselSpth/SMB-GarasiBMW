@@ -23,18 +23,18 @@
         </a>
 
         {{-- Layanan Servis --}}
-        <div class="pt-[4px]" x-data="{ open: {{ request()->is('manajemen-servis*') ? 'true' : 'false' }} }">
+        <div class="pt-[4px]" x-data="{ open: {{ request()->is('pelanggan*', 'manajemen-servis*') ? 'true' : 'false' }} }">
             <button @click="open = !open"
                 class="w-full flex items-center justify-between px-[16px] py-[12px] rounded-[10px] text-[#213F5C] font-bold">
                 <div class="flex items-center gap-[14px]">
-                    <svg class="w-[22px] h-[22px] {{ request()->is('manajemen-servis*') ? 'text-bmw-blue' : 'text-[#213F5C]/70' }}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg class="w-[22px] h-[22px] {{ request()->is('pelanggan*', 'manajemen-servis*') ? 'text-bmw-blue' : 'text-[#213F5C]/70' }}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                         <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
                     <span class="text-[15px]">Layanan Servis</span>
                 </div>
                 <svg :class="open ? 'rotate-180' : 'rotate-0'"
-                    class="w-[14px] h-[14px] {{ request()->is('manajemen-servis*') ? 'text-bmw-blue' : 'text-[#213F5C]/40' }} transition-transform duration-300"
+                    class="w-[14px] h-[14px] {{ request()->is('pelanggan*', 'manajemen-servis*') ? 'text-bmw-blue' : 'text-[#213F5C]/40' }} transition-transform duration-300"
                     fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                     <path d="M19 9l-7 7-7-7"></path>
                 </svg>
@@ -171,17 +171,17 @@
         </div>
 
         {{-- Master Data --}}
-        <div class="pt-[4px]" x-data="{ open: {{ request()->is('pelanggan*', 'jenis-mobil*', 'jenis-mesin*', 'kategori-sparepart*', 'supplier*') ? 'true' : 'false' }} }">
+        <div class="pt-[4px]" x-data="{ open: {{ request()->is('jenis-mobil*', 'jenis-mesin*', 'kategori-sparepart*', 'supplier*') ? 'true' : 'false' }} }">
             <button @click="open = !open"
                 class="w-full flex items-center justify-between px-[16px] py-[12px] rounded-[10px] text-[#213F5C] font-bold">
                 <div class="flex items-center gap-[14px]">
-                    <svg class="w-[22px] h-[22px] {{ request()->is('pelanggan*', 'jenis-mobil*', 'jenis-mesin*', 'kategori-sparepart*', 'supplier*') ? 'text-bmw-blue' : 'text-[#213F5C]/70' }}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg class="w-[22px] h-[22px] {{ request()->is('jenis-mobil*', 'jenis-mesin*', 'kategori-sparepart*', 'supplier*') ? 'text-bmw-blue' : 'text-[#213F5C]/70' }}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                     </svg>
                     <span class="text-[15px]">Master Data</span>
                 </div>
                 <svg :class="open ? 'rotate-180' : 'rotate-0'"
-                    class="w-[14px] h-[14px] {{ request()->is('pelanggan*', 'jenis-mobil*', 'jenis-mesin*', 'kategori-sparepart*', 'supplier*') ? 'text-bmw-blue' : 'text-[#213F5C]/40' }} transition-transform duration-300"
+                    class="w-[14px] h-[14px] {{ request()->is('jenis-mobil*', 'jenis-mesin*', 'kategori-sparepart*', 'supplier*') ? 'text-bmw-blue' : 'text-[#213F5C]/40' }} transition-transform duration-300"
                     fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                     <path d="M19 9l-7 7-7-7"></path>
                 </svg>

@@ -131,12 +131,22 @@ Route::get('/payroll', function () {
 })->name('payroll.index');
 
 // Route Layanan Servis -> Penerimaan Servis
+// Route Layanan Servis -> Antrian Pengerjaan 
 Route::get('/manajemen-servis', function () {
     return view('pages.manajemen_servis_mobil.manajemenServisMobil');
 })->name('manajemen-servis.index');
-
-// Route Layanan Servis -> Antrian Pengerjaan 
-// Masih belum ada
+Route::get('/manajemen-servis/tambah', function () {
+    return view('pages.manajemen_servis_mobil.tambahManajemenServisMobil');
+})->name('manajemen-servis.create');
+Route::get('/manajemen-servis/detail/{id}', function ($id) {
+    return view('pages.manajemen_servis_mobil.detailManajemenServisMobil');
+})->name('manajemen-servis.show');
+Route::get('/manajemen-servis/edit/{id}', function ($id) {
+    return view('pages.manajemen_servis_mobil.editManajemenServisMobil');
+})->name('manajemen-servis.edit');
+Route::get('/manajemen-servis/delete/{id}', function ($id) {
+    return view('pages.manajemen_servis_mobil.manajemenServisMobil');
+})->name('manajemen-servis.delete');
 
 // Route Layanan Servis -> Riwayat Transaksi
 // Masih belum ada
