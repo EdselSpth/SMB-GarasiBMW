@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 // Route Login
 Route::get('/', function () {
     return view('login');
-});
+})->name('login');
 
 // Route Master Data -> Pelanggan
 Route::get('/pelanggan', function () {
@@ -129,6 +129,19 @@ Route::get('/izin-terlambat/delete/{id}', function ($id) {
 Route::get('/payroll', function () {
     return view('pages.payroll.payroll');
 })->name('payroll.index');
+Route::get('/payroll/tambah', function () {
+    return view('pages.payroll.tambahPayroll');
+})->name('payroll.create');
+Route::get('/payroll/detail/{id}', function ($id) {
+    return view('pages.payroll.detailPayroll');
+})->name('payroll.show');
+Route::get('/payroll/edit/{id}', function ($id) {
+    return view('pages.payroll.editPayroll');
+})->name('payroll.edit');
+Route::get('/payroll/delete/{id}', function ($id) {
+    return view('pages.payroll.payroll');
+})->name('payroll.delete');
+
 
 // Route Layanan Servis -> Penerimaan Servis
 // Route Layanan Servis -> Antrian Pengerjaan 

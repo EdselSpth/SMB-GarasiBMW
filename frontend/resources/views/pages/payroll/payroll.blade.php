@@ -53,7 +53,7 @@
         'filterModalId' => 'modalFilterPayroll',
         'exportExcelUrl' => '#',
         'exportPdfUrl' => '#',
-        'addUrl' => '#',
+        'addUrl' => route('payroll.create'),
         'btnText' => 'Tambah Gaji Karyawan'
     ])
 
