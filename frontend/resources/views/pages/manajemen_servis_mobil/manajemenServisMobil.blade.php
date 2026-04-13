@@ -54,7 +54,7 @@
         'filterModalId' => 'modalFilterManajemenServisMobil',
         'exportExcelUrl' => '#',
         'exportPdfUrl' => '#',
-        'addUrl' => '#',
+        'addUrl' => route('manajemen-servis.create'),'',
         'btnText' => 'Tambah Servis Mobil'
     ])
 
