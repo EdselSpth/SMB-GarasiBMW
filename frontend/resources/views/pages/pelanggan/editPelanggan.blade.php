@@ -187,7 +187,7 @@
                     } catch (e) { console.error("Gagal load data edit", e); }
 
                     // Link tombol sidebar ke fungsi update
-                    document.getElementById('submitUpdateBtn').onclick = (e) => {
+                    document.getElementById('submitBtnApi').onclick = (e) => {
                         e.preventDefault();
                         this.submitUpdateData();
                     };
