@@ -93,6 +93,7 @@
                     localStorage.setItem('access_token', result.data.access_token);
                     localStorage.setItem('user_name', result.data.user.name);
                     localStorage.setItem('user_role', result.data.user.role);
+                    localStorage.setItem('user_employees_id', result.data.user.employees_id ?? '');
 
                     Swal.fire({
                         icon: 'success',

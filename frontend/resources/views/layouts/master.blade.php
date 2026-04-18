@@ -116,11 +116,27 @@
 
             // Update Nama & Role
             document.getElementById('user-name-header').innerText = name;
-            document.getElementById('user-role-header').innerText = role.replace('_', ' ');
+            document.getElementById('user-role-header').innerText = role.replace(/_/g, ' ');
 
             // Update Inisial (Ambil huruf pertama)
             document.getElementById('user-initial').innerText = name.charAt(0).toUpperCase();
         });
+
+        // ── Fungsi global: update header nama & role tanpa logout ──
+        function refreshUserHeader(name, role) {
+            // Simpan ke localStorage supaya konsisten di semua halaman
+            localStorage.setItem('user_name', name);
+            localStorage.setItem('user_role', role);
+
+            // Update DOM header langsung
+            const nameEl    = document.getElementById('user-name-header');
+            const roleEl    = document.getElementById('user-role-header');
+            const initialEl = document.getElementById('user-initial');
+
+            if (nameEl)    nameEl.innerText    = name;
+            if (roleEl)    roleEl.innerText    = role.replace(/_/g, ' ');
+            if (initialEl) initialEl.innerText = name.charAt(0).toUpperCase();
+        }
 
         async function handleLogout() {
             const token = localStorage.getItem('access_token');

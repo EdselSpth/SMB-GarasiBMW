@@ -19,6 +19,17 @@ class EmployeeController extends Controller
         ], 200);
     }
 
+    public function show($id)
+    {
+        $employee = Employee::findOrFail($id);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data pegawai berhasil ditarik',
+            'data' => $employee
+        ], 200);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -60,7 +71,7 @@ class EmployeeController extends Controller
             $validated['password'] = Hash::make($request->password);
         }
 
-        $validated['update_by'] = $request->user()->employees_id ?? 1;
+        $validated['edited_by'] = $request->user()->employees_id ?? 1;
         $employee->update($validated);
 
         return response()->json([
