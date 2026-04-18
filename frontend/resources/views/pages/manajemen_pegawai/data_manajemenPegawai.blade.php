@@ -54,8 +54,6 @@
                         <label class="block text-[13px] font-bold text-[#627D98] mb-2 uppercase tracking-wider">Status</label>
                         <select id="filterStatus" class="w-full px-4 py-3 bg-[#F9FBFF] border border-[#D9E2EC] rounded-xl outline-none text-[#213F5C] font-semibold">
                             <option value="">Semua Status</option>
-                            <option value="aktif">Aktif</option>
-                            <option value="nonaktif">Non-Aktif</option>
                         </select>
                     </div>
                 </div>
@@ -150,18 +148,43 @@
         }
 
         async function loadFilterOptions() {
+            const roleSelect = document.getElementById('filterRole');
+            const statusSelect = document.getElementById('filterStatus');
+            
+            const roleSelected = roleSelect.value;
+            const statusSelected = statusSelect.value;
+
             try {
-                const res = await fetch('http://127.0.0.1:8000/api/employee-options', {
+                const queryParams = new URLSearchParams();
+                if (roleSelected) queryParams.append('role', roleSelected);
+                if (statusSelected) queryParams.append('status', statusSelected);
+
+                const res = await fetch(`http://127.0.0.1:8000/api/employee-options?${queryParams.toString()}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const result = await res.json();
-                if (res.ok && result.data && result.data.roles) {
-                    const roleSelect = document.getElementById('filterRole');
+                
+                if (res.ok && result.data) {
                     roleSelect.innerHTML = '<option value="">Semua Role</option>';
-                    result.data.roles.forEach(r => roleSelect.innerHTML += `<option value="${r}">${r}</option>`);
+                    statusSelect.innerHTML = '<option value="">Semua Status</option>';
+
+                    if (result.data.roles) {
+                        result.data.roles.forEach(r => {
+                            roleSelect.innerHTML += `<option value="${r}" ${r === roleSelected ? 'selected' : ''}>${r}</option>`;
+                        });
+                    }
+                    if (result.data.statuses) {
+                        Object.entries(result.data.statuses).forEach(([val, label]) => {
+                            statusSelect.innerHTML += `<option value="${val}" ${val === statusSelected ? 'selected' : ''}>${label}</option>`;
+                        });
+                    }
                 }
             } catch (e) { console.error(e); }
         }
+
+        // Cascading: update options saat filter diganti
+        document.getElementById('filterRole').addEventListener('change', loadFilterOptions);
+        document.getElementById('filterStatus').addEventListener('change', loadFilterOptions);
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
             clearTimeout(timeout);

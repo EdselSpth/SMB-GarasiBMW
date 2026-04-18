@@ -21,4 +21,9 @@ class Sparepart extends Model
     {
         return $this->belongsTo(Supplier::class, 'supplier_id', 'supplier_id');
     }
+
+    public function carType()
+    {
+        return $this->belongsTo(CarType::class, 'car_type_id', 'car_type_id');
+    }
 }

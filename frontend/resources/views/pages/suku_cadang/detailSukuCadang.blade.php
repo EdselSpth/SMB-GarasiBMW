@@ -29,7 +29,7 @@
             const container = document.getElementById('sparePartDetailContainer');
 
             try {
-                const res = await fetch(`http://127.0.0.1:8000/api/spare-parts/${id}`, {
+                const res = await fetch(`http://127.0.0.1:8000/api/spareparts/${id}`, {
                     headers: {
                         'Accept': 'application/json',
                         'Authorization': `Bearer ${token}`
@@ -59,15 +59,15 @@
                             <div class="space-y-3">
                                 <div class="flex items-center">
                                     <p class="w-40 text-[13px] text-gray-400">Kode Barang</p>
-                                    <p class="text-[13px] font-semibold text-[#213F5C]">${item.part_code || '-'}</p>
+                                    <p class="text-[13px] font-semibold text-[#213F5C]">${item.item_code || '-'}</p>
                                 </div>
                                 <div class="flex items-center">
                                     <p class="w-40 text-[13px] text-gray-400">Nama Barang</p>
-                                    <p class="text-[13px] font-semibold text-[#213F5C]">${item.part_name || '-'}</p>
+                                    <p class="text-[13px] font-semibold text-[#213F5C]">${item.name || '-'}</p>
                                 </div>
                                 <div class="flex items-center">
                                     <p class="w-40 text-[13px] text-gray-400">Kategori</p>
-                                    <p class="text-[13px] font-semibold text-[#213F5C]">${item.category || '-'}</p>
+                                    <p class="text-[13px] font-semibold text-[#213F5C]">${item.category?.name ?? item.category ?? '-'}</p>
                                 </div>
                             </div>
                         </div>
@@ -84,11 +84,11 @@
                             <div class="space-y-3">
                                 <div class="flex items-center">
                                     <p class="w-40 text-[13px] text-gray-400">Tipe Mobil</p>
-                                    <p class="text-[13px] font-semibold text-[#213F5C]">${item.car_type || '-'}</p>
+                                    <p class="text-[13px] font-semibold text-[#213F5C]">${item.car_type?.name ? (item.car_type.chassis_number + ' - ' + item.car_type.name) : '-'}</p>
                                 </div>
                                 <div class="flex items-center">
                                     <p class="w-40 text-[13px] text-gray-400">Kode Mesin</p>
-                                    <p class="text-[13px] font-semibold text-[#213F5C]">${item.engine_code || '-'}</p>
+                                    <p class="text-[13px] font-semibold text-[#213F5C]">${item.car_type?.engine_code || '-'}</p>
                                 </div>
                             </div>
                         </div>
@@ -107,19 +107,19 @@
                             <div class="bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl p-5 flex justify-between items-start">
                                 <div class="space-y-1.5">
                                     <p class="text-[13px] text-gray-400">
-                                        HPP: <span class="font-bold text-[#213F5C] text-[15px]">${formatRupiah(item.hpp)}</span>
+                                        HPP: <span class="font-bold text-[#213F5C] text-[15px]">${formatRupiah(item.cost_off_sell)}</span>
                                     </p>
                                     <p class="text-[13px] text-gray-400">
-                                        Harga Jual: <span class="font-bold text-[#1273EB] text-[15px]">${formatRupiah(item.sell_price)}</span>
+                                        Harga Jual: <span class="font-bold text-[#1273EB] text-[15px]">${formatRupiah(item.selling_price)}</span>
                                     </p>
                                     <p class="text-[13px] text-gray-400">
-                                        Stok: <span class="font-bold text-[#213F5C] text-[15px]">${item.stock ?? '-'} Barang</span>
+                                        Stok: <span class="font-bold text-[#213F5C] text-[15px]">${item.quantity ?? '-'} Barang</span>
                                     </p>
                                 </div>
                                 <div class="text-right space-y-1.5">
                                     <p class="text-[13px] text-gray-400">
-                                        Tanggal: <span class="font-semibold text-[#213F5C]">${item.entry_date
-                                            ? new Date(item.entry_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
+                                        Tanggal: <span class="font-semibold text-[#213F5C]">${item.date
+                                            ? new Date(item.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
                                             : '-'
                                         }</span>
                                     </p>
@@ -179,7 +179,7 @@
                             didOpen: () => { Swal.showLoading() }
                         });
 
-                        const res = await fetch(`http://127.0.0.1:8000/api/spare-parts/${id}`, {
+                        const res = await fetch(`http://127.0.0.1:8000/api/spareparts/${id}`, {
                             method: 'DELETE',
                             headers: {
                                 'Authorization': `Bearer ${token}`,

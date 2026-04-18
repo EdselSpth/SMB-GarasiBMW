@@ -30,22 +30,24 @@
             <div>
                 <label class="block text-[14px] font-bold text-[#213F5C] mb-2">Kode Barang <span
                         class="text-red-500">*</span></label>
-                <input type="text" id="part_code" required placeholder="Masukan kode barang"
+                <input type="text" id="item_code" required placeholder="Masukan kode barang"
                     class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
             </div>
 
             <div>
                 <label class="block text-[14px] font-bold text-[#213F5C] mb-2">Nama Suku Cadang <span
                         class="text-red-500">*</span></label>
-                <input type="text" id="part_name" required placeholder="Masukan nama suku cadang"
+                <input type="text" id="name" required placeholder="Masukan nama suku cadang"
                     class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
             </div>
 
             <div>
                 <label class="block text-[14px] font-bold text-[#213F5C] mb-2">Kategori <span
                         class="text-red-500">*</span></label>
-                <input type="text" id="category" required placeholder="Masukan kategori"
-                    class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
+                <select id="item_category_id" required
+                    class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C]">
+                    <option value="" disabled selected>Pilih Kategori</option>
+                </select>
             </div>
         </div>
 
@@ -61,14 +63,18 @@
 
             <div>
                 <label class="block text-[14px] font-bold text-[#213F5C] mb-2">Tipe Mobil</label>
-                <input type="text" id="car_type" placeholder="Masukan tipe mobil"
-                    class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
+                <select id="car_type"
+                    class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C]">
+                    <option value="">-- Semua Tipe Mobil --</option>
+                </select>
             </div>
 
             <div>
                 <label class="block text-[14px] font-bold text-[#213F5C] mb-2">Kode Mesin</label>
-                <input type="text" id="engine_code" placeholder="Masukan kode mesin"
-                    class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
+                <select id="engine_code"
+                    class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C]">
+                    <option value="">-- Semua Kode Mesin --</option>
+                </select>
             </div>
         </div>
 
@@ -83,20 +89,20 @@
             </div> 
 
             <div>
-                <label class="block text-[14px] font-bold text-[#213F5C] mb-2">Harga Pokok Produksi (HPP)</label>
-                <input type="text" id="hpp" inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 500000"
+                <label class="block text-[14px] font-bold text-[#213F5C] mb-2">Harga Pokok Produksi (HPP) <span class="text-red-500">*</span></label>
+                <input type="text" id="cost_off_sell" required inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 500000"
                     class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
             </div>
 
             <div>
                 <label class="block text-[14px] font-bold text-[#213F5C] mb-2">Harga Jual <span class="text-red-500">*</span></label>
-                <input type="text" id="sell_price" required inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 1000000"
+                <input type="text" id="selling_price" required inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 1000000"
                     class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
             </div>
 
             <div>
                 <label class="block text-[14px] font-bold text-[#213F5C] mb-2">Jumlah Barang <span class="text-red-500">*</span></label>
-                <input type="text" id="stock" required inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 10"
+                <input type="text" id="quantity" required inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 10"
                     class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
             </div>
 
@@ -111,7 +117,7 @@
             <div>
                 <label class="block text-[14px] font-bold text-[#213F5C] mb-2">Tanggal Masuk <span
                         class="text-red-500">*</span></label>
-                <input type="date" id="entry_date" required
+                <input type="date" id="date" required
                     class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C]">
             </div>
         </div>
@@ -126,37 +132,155 @@
     ])
 
     <script>
-        // Blokir input non-angka
+        const token = localStorage.getItem('access_token');
+
+        // ─── Data stores ──────────────────────────────────────────
+        let allCarTypes = [];   // { car_type_id, name, chassis_number, engine_code: "M54, N42", ... }
+        let allEngines  = [];   // unique engine name strings extracted from car_types
+
+        // ─── Blokir input non-angka ───────────────────────────────
         document.querySelectorAll('input[inputmode="numeric"]').forEach(input => {
             input.addEventListener('keydown', (e) => {
                 const allowed = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End'];
-                if (!allowed.includes(e.key) && !/^[0-9]$/.test(e.key)) {
-                    e.preventDefault();
-                }
+                if (!allowed.includes(e.key) && !/^[0-9]$/.test(e.key)) e.preventDefault();
             });
-
             input.addEventListener('paste', (e) => {
-                const pasted = e.clipboardData.getData('text');
-                if (!/^[0-9]+$/.test(pasted)) e.preventDefault();
+                if (!/^[0-9]+$/.test(e.clipboardData.getData('text'))) e.preventDefault();
             });
-        }); // <-- kurung ini yang hilang sebelumnya!
+        });
+
+        // ─── Fetch & populate dropdowns saat DOM ready ────────────
+        document.addEventListener('DOMContentLoaded', async () => {
+            const headers = { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` };
+
+            // 1. Fetch car types (paginated, ambil banyak)
+            try {
+                const res = await fetch('http://127.0.0.1:8000/api/car-types?limit=200', { headers });
+                const result = await res.json();
+                allCarTypes = result.data?.data ?? result.data ?? [];
+
+                // Extract unique engine names dari kolom engine_code tiap mobil
+                const engineSet = new Set();
+                allCarTypes.forEach(car => {
+                    if (car.engine_code) {
+                        car.engine_code.split(',').map(e => e.trim()).filter(Boolean).forEach(e => engineSet.add(e));
+                    }
+                });
+                allEngines = [...engineSet].sort();
+
+                populateCarTypes(allCarTypes);
+                populateEngines(allEngines);
+            } catch (e) { console.error('Gagal fetch car-types:', e); }
+
+            // 2. Fetch suppliers
+            try {
+                const res = await fetch('http://127.0.0.1:8000/api/suppliers?limit=200', { headers });
+                const result = await res.json();
+                const suppliers = result.data?.data ?? result.data ?? [];
+                const select = document.getElementById('supplier_id');
+                suppliers.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.supplier_id;
+                    opt.textContent = s.name;
+                    select.appendChild(opt);
+                });
+            } catch (e) { console.error('Gagal fetch suppliers:', e); }
+
+            // 3. Fetch item categories
+            try {
+                const res = await fetch('http://127.0.0.1:8000/api/item-categories?limit=200', { headers });
+                const result = await res.json();
+                const categories = result.data?.data ?? result.data ?? [];
+                const select = document.getElementById('item_category_id');
+                categories.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c.category_id;
+                    opt.textContent = c.name;
+                    select.appendChild(opt);
+                });
+            } catch (e) { console.error('Gagal fetch item-categories:', e); }
+        });
+
+        // ─── Populate helpers ─────────────────────────────────────
+        function populateCarTypes(cars) {
+            const select = document.getElementById('car_type');
+            // Simpan selected value sebelum clear
+            const currentVal = select.value;
+            select.innerHTML = '<option value="">-- Semua Tipe Mobil --</option>';
+            cars.forEach(car => {
+                const opt = document.createElement('option');
+                opt.value = car.car_type_id;
+                opt.textContent = `${car.chassis_number} - ${car.name} (${car.series})`;
+                select.appendChild(opt);
+            });
+            // Restore selection if still available
+            if (currentVal) select.value = currentVal;
+        }
+
+        function populateEngines(engines) {
+            const select = document.getElementById('engine_code');
+            const currentVal = select.value;
+            select.innerHTML = '<option value="">-- Semua Kode Mesin --</option>';
+            engines.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                select.appendChild(opt);
+            });
+            if (currentVal) select.value = currentVal;
+        }
+
+        // ─── Cascading filter logic ───────────────────────────────
+        // Saat pilih TIPE MOBIL → filter kode mesin yang tersedia
+        document.getElementById('car_type').addEventListener('change', function() {
+            const selectedCar = this.value;
+            if (!selectedCar) {
+                // Reset: tampilkan semua mesin
+                populateEngines(allEngines);
+                return;
+            }
+
+            // Cari car yang dipilih, extract engine codes-nya
+            const car = allCarTypes.find(c => Number(c.car_type_id) === Number(selectedCar));
+            if (car && car.engine_code) {
+                const availableEngines = car.engine_code.split(',').map(e => e.trim()).filter(Boolean);
+                populateEngines(availableEngines);
+            }
+        });
+
+        // Saat pilih KODE MESIN → filter tipe mobil yang punya mesin itu
+        document.getElementById('engine_code').addEventListener('change', function() {
+            const selectedEngine = this.value;
+            if (!selectedEngine) {
+                // Reset: tampilkan semua mobil
+                populateCarTypes(allCarTypes);
+                return;
+            }
+
+            // Filter mobil yang engine_code-nya mengandung mesin yang dipilih
+            const filteredCars = allCarTypes.filter(car =>
+                car.engine_code && car.engine_code.split(',').map(e => e.trim()).includes(selectedEngine)
+            );
+            populateCarTypes(filteredCars);
+        });
 
         // Submit handler (di luar forEach)
         document.getElementById('submitBtnApi').onclick = async (e) => {
             e.preventDefault();
             const token = localStorage.getItem('access_token');
 
+            const categorySelect = document.getElementById('item_category_id');
             const data = {
-                part_code: document.getElementById('part_code').value,
-                part_name: document.getElementById('part_name').value,
-                category: document.getElementById('category').value,
-                car_type: document.getElementById('car_type').value,
-                engine_code: document.getElementById('engine_code').value,
-                hpp: Number(document.getElementById('hpp').value) || null,
-                sell_price: Number(document.getElementById('sell_price').value),
-                stock: Number(document.getElementById('stock').value),
-                supplier_id: document.getElementById('supplier_id').value || null,
-                entry_date: document.getElementById('entry_date').value,
+                item_code:        document.getElementById('item_code').value,
+                name:             document.getElementById('name').value,
+                category:         categorySelect.selectedOptions[0]?.text || '',
+                item_category_id: categorySelect.value || null,
+                cost_off_sell:    Number(document.getElementById('cost_off_sell').value) || 0,
+                selling_price:    Number(document.getElementById('selling_price').value),
+                quantity:         Number(document.getElementById('quantity').value),
+                supplier_id:      document.getElementById('supplier_id').value || null,
+                car_type_id:      document.getElementById('car_type').value || null,
+                date:             document.getElementById('date').value,
             };
 
             try {
@@ -166,7 +290,7 @@
                     didOpen: () => { Swal.showLoading() }
                 });
 
-                const response = await fetch('http://127.0.0.1:8000/api/spare-parts', {
+                const response = await fetch('http://127.0.0.1:8000/api/spareparts', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
