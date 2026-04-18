@@ -8,15 +8,34 @@ use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $employees = Employee::all();
+        $query = Employee::query();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data pegawai berhasil ditarik',
-            'data' => $employees
-        ], 200);
+        // 1. Search (nama, email)
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%");
+            });
+        }
+
+        // 2. Filter Role
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
+        }
+
+        // 3. Filter Status
+        if ($request->filled('status')) {
+            if ($request->status === 'aktif') {
+                $query->where('status', 1);
+            } elseif ($request->status === 'nonaktif') {
+                $query->where('status', 0);
+            }
+        }
+
+        return $query->orderBy('created_at', 'desc')->paginate($request->limit ?? 10);
     }
 
     public function show($id)
@@ -90,5 +109,39 @@ class EmployeeController extends Controller
             'status' => 'success',
             'message' => 'Pegawai berhasil dinonaktifkan!',
         ], 200);
+    }
+
+    public function getFilterOptions(Request $request)
+    {
+        // 1. Ambil Role (tergantung filter status)
+        $roleQuery = Employee::whereNotNull('role')->where('role', '!=', '');
+        if ($request->filled('status')) {
+            $statusVal = $request->status === 'aktif' ? 1 : 0;
+            $roleQuery->where('status', $statusVal);
+        }
+        $roles = $roleQuery->distinct()->orderBy('role', 'asc')->pluck('role');
+
+        // 2. Ambil Status (tergantung filter role)
+        $statusQuery = Employee::query();
+        if ($request->filled('role')) {
+            $statusQuery->where('role', $request->role);
+        }
+        $rawStatuses = $statusQuery->distinct()->pluck('status');
+        $statuses = [];
+        foreach ($rawStatuses as $s) {
+            if ($s == 1) {
+                $statuses['aktif'] = 'Aktif';
+            } else {
+                $statuses['nonaktif'] = 'Non-Aktif';
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'roles' => $roles,
+                'statuses' => $statuses
+            ]
+        ]);
     }
 }

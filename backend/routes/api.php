@@ -54,6 +54,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('engine-types', EngineTypeController::class);
     Route::get('/car-series', [CarTypeController::class, 'getUniqueSeries']);
     Route::get('/engine-options', [EngineTypeController::class, 'getFilterOptions']);
+    Route::get('/sparepart-options', [SparepartController::class, 'getFilterOptions']);
+    Route::get('/employee-options', [EmployeeController::class, 'getFilterOptions']);
 
     // Route API Resources yang dibatasi (cuma bisa store dan destroy)
     Route::apiResource('transaction-items', TransactionItemController::class)->only(['store', 'destroy']);
