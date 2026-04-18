@@ -103,7 +103,7 @@ Route::get('/manajemen-pegawai/detail/{id}', function ($id) {
     return view('pages.manajemen_pegawai.detaildata_manajemenPegawai');
 })->name('manajemen-pegawai.show');
 Route::get('/manajemen-pegawai/edit/{id}', function ($id) {
-    return view('pages.manajemen_pegawai.editdata_manajemenPegawai');
+    return view('pages.manajemen_pegawai.editdata_manajemenPagawai');
 })->name('manajemen-pegawai.edit');
 Route::get('/manajemen-pegawai/delete/{id}', function ($id) {
     return view('pages.manajemen_pegawai.data_manajemenPegawai');

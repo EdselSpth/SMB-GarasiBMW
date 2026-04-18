@@ -47,24 +47,6 @@
                     const formatTanggal = (str) =>
                         str ? new Date(str).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-';
 
-                    // Render extra_incomes rows
-                    let extraIncomesHtml = '';
-                    if (Array.isArray(d.extra_incomes) && d.extra_incomes.length > 0) {
-                        extraIncomesHtml = d.extra_incomes.map(item => `
-                            <div class="flex items-center justify-between px-4 py-3 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl">
-                                <div>
-                                    <p class="text-[13px] font-bold text-[#213F5C]">${item.name || '-'}</p>
-                                    <p class="text-[11px] text-gray-400">${item.type || 'Insentif'}</p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-[13px] font-bold text-[#213F5C]">${formatRupiah(item.amount)}</p>
-                                    <p class="text-[11px] text-gray-400">${item.category || 'Direct Income'}</p>
-                                </div>
-                            </div>
-                        `).join('');
-                    } else {
-                        extraIncomesHtml = `<p class="text-[13px] text-gray-400 italic">Tidak ada pendapatan lain.</p>`;
-                    }
 
                     const detailHtml = `
                         {{-- Seksi: Informasi Pribadi --}}
@@ -82,19 +64,21 @@
                             <div class="grid grid-cols-2 gap-x-8 gap-y-5">
                                 <div>
                                     <p class="text-[12px] text-gray-400 mb-1">Nama Lengkap</p>
-                                    <p class="text-[14px] font-semibold text-[#213F5C]">${d.full_name || '-'}</p>
+                                    <p class="text-[14px] font-semibold text-[#213F5C]">${d.name || '-'}</p>
                                 </div>
                                 <div>
-                                    <p class="text-[12px] text-gray-400 mb-1">Nomor Pokok Karyawan</p>
-                                    <p class="text-[14px] font-semibold text-[#213F5C]">${d.employee_id || '-'}</p>
-                                </div>
-                                <div>
-                                    <p class="text-[12px] text-gray-400 mb-1">Tahun Bergabung</p>
-                                    <p class="text-[14px] font-semibold text-[#213F5C]">${d.join_year || '-'}</p>
+                                    <p class="text-[12px] text-gray-400 mb-1">Tanggal Bergabung</p>
+                                    <p class="text-[14px] font-semibold text-[#213F5C]">${formatTanggal(d.join_date)}</p>
                                 </div>
                                 <div>
                                     <p class="text-[12px] text-gray-400 mb-1">Tanggal Lahir</p>
                                     <p class="text-[14px] font-semibold text-[#213F5C]">${formatTanggal(d.birth_date)}</p>
+                                </div>
+                                <div>
+                                    <p class="text-[12px] text-gray-400 mb-1">Status</p>
+                                    ${(d.status == 1 || d.status === true)
+                                        ? '<span class="inline-block px-3 py-1 bg-green-50 text-green-600 text-[12px] font-semibold rounded-lg">Aktif</span>'
+                                        : '<span class="inline-block px-3 py-1 bg-red-50 text-red-500 text-[12px] font-semibold rounded-lg">Non-Aktif</span>'}
                                 </div>
                                 ${d.address ? `
                                 <div class="col-span-2">
@@ -125,7 +109,7 @@
                                     <p class="text-[14px] font-semibold text-[#213F5C] tracking-widest">••••••••••••••••</p>
                                 </div>
                                 <div>
-                                    <p class="text-[12px] text-gray-400 mb-1">Roles</p>
+                                    <p class="text-[12px] text-gray-400 mb-1">Role</p>
                                     <span class="inline-block px-3 py-1 bg-blue-50 text-[#1273EB] text-[12px] font-semibold rounded-lg">
                                         ${d.role || '-'}
                                     </span>
@@ -133,7 +117,7 @@
                             </div>
                         </div>
 
-                        {{-- Seksi: Pemasukan Tetap --}}
+                        {{-- Seksi: Pemasukan --}}
                         <div class="bg-white border border-[#E5E9F2] rounded-2xl p-6">
                             <div class="flex items-center gap-2 mb-5">
                                 <div class="w-5 h-5 rounded-full bg-[#1273EB] flex items-center justify-center flex-shrink-0">
@@ -144,17 +128,9 @@
                                 </div>
                                 <h3 class="text-[15px] font-bold text-[#213F5C]">Pemasukan Tetap</h3>
                             </div>
-
-                            {{-- Gaji Pokok --}}
-                            <div class="flex items-center justify-between py-3 border-b border-[#F0F3FA]">
+                            <div class="flex items-center justify-between py-3">
                                 <p class="text-[13px] text-gray-400">Gaji Pokok</p>
                                 <p class="text-[14px] font-bold text-[#213F5C]">${formatRupiah(d.base_salary)}</p>
-                            </div>
-
-                            {{-- Pendapatan Lain --}}
-                            <div class="mt-4 space-y-2">
-                                <p class="text-[13px] font-bold text-[#213F5C] mb-3">Pendapatan Lain</p>
-                                ${extraIncomesHtml}
                             </div>
                         </div>
                     `;

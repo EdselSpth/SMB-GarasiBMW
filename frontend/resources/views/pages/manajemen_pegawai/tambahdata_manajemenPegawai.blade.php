@@ -29,26 +29,17 @@
                 <label class="block text-[14px] font-bold text-[#213F5C] mb-2">
                     Nama Lengkap <span class="text-red-500">*</span>
                 </label>
-                <input type="text" id="full_name" required placeholder="Masukan nama lengkap"
-                    class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
-            </div>
-
-            <div>
-                <label class="block text-[14px] font-bold text-[#213F5C] mb-2">
-                    Nomor Pokok Karyawan <span class="text-red-500">*</span>
-                </label>
-                <input type="text" id="employee_id" required placeholder="Masukan nomor pokok karyawan"
+                <input type="text" id="name" required placeholder="Masukan nama lengkap"
                     class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
             </div>
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-[14px] font-bold text-[#213F5C] mb-2">
-                        Tahun Bergabung <span class="text-red-500">*</span>
+                        Tanggal Bergabung <span class="text-red-500">*</span>
                     </label>
-                    <input type="number" id="join_year" required
-                        placeholder="{{ date('Y') }}" value="{{ date('Y') }}"
-                        class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
+                    <input type="date" id="join_date" required
+                        class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C]">
                 </div>
                 <div>
                     <label class="block text-[14px] font-bold text-[#213F5C] mb-2">
@@ -101,15 +92,17 @@
                 <select id="role" required
                     class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C]">
                     <option value="" disabled selected>Pilih Role</option>
-                    <option value="admin">Admin</option>
-                    <option value="mekanik">Mekanik</option>
-                    <option value="kasir">Kasir</option>
+                    <option value="pemilik_bengkel">Pemilik Bengkel</option>
+                    <option value="finance">Finance</option>
                     <option value="kepala_bengkel">Kepala Bengkel</option>
+                    <option value="kepala_admin">Kepala Admin</option>
+                    <option value="admin">Admin</option>
+                    <option value="karyawan">Karyawan</option>
                 </select>
             </div>
         </div>
 
-        {{-- Pemasukan Tetap --}}
+        {{-- Gaji Pokok --}}
         <div class="bg-white border border-[#E5E9F2] rounded-2xl p-6 space-y-4">
             <div class="flex items-center gap-2 mb-2">
                 <svg class="w-5 h-5 text-[#1273EB]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -118,23 +111,13 @@
                 </svg>
                 <h3 class="text-[15px] font-bold text-[#213F5C]">Pemasukan Tetap</h3>
             </div>
-
             <div>
                 <label class="block text-[14px] font-bold text-[#213F5C] mb-2">Gaji Pokok</label>
-                <input type="text" id="base_salary" inputmode="numeric" pattern="[0-9]*" placeholder="Contoh: 5000000"
-                    class="w-full px-5 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
-            </div>
-
-            <div>
-                <label class="block text-[14px] font-bold text-[#213F5C] mb-2">Pendapatan Lain</label>
-                <div id="extra_incomes" class="space-y-2 mb-3"></div>
-                <button type="button" onclick="tambahPendapatan()"
-                    class="w-full py-3 bg-[#1273EB] hover:bg-blue-700 text-white text-[14px] font-semibold rounded-xl transition flex items-center justify-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                    Tambah Pendapatan Lain
-                </button>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[13px] text-gray-400 font-medium select-none">Rp</span>
+                    <input type="text" id="base_salary" inputmode="numeric" pattern="[0-9]*" placeholder="0"
+                        class="w-full pl-10 pr-4 py-3.5 bg-[#F9FBFF] border border-[#E5E9F2] rounded-xl outline-none text-[14px] text-[#213F5C] placeholder-gray-400">
+                </div>
             </div>
         </div>
 
@@ -206,16 +189,14 @@
             const token = localStorage.getItem('access_token');
 
             const data = {
-                full_name:     document.getElementById('full_name').value,
-                employee_id:   document.getElementById('employee_id').value,
-                join_year:     Number(document.getElementById('join_year').value),
-                birth_date:    document.getElementById('birth_date').value,
-                address:       document.getElementById('address').value,
-                email:         document.getElementById('email').value,
-                password:      document.getElementById('password').value,
-                role:          document.getElementById('role').value,
-                base_salary:   Number(document.getElementById('base_salary').value) || 0,
-                extra_incomes: collectExtraIncomes(),
+                name:        document.getElementById('name').value,
+                join_date:   document.getElementById('join_date').value,
+                birth_date:  document.getElementById('birth_date').value,
+                address:     document.getElementById('address').value,
+                email:       document.getElementById('email').value,
+                password:    document.getElementById('password').value,
+                role:        document.getElementById('role').value,
+                base_salary: Number(document.getElementById('base_salary').value) || 0,
             };
 
             try {
