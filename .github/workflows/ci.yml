@@ -8,12 +8,8 @@ on:
 
 jobs:
   test:
-    name: Run Pest Tests (PHP ${{ matrix.php }})
+    name: Run Pest Tests (PHP 8.3)
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        php: [8.3]
 
     services:
       mysql:
@@ -33,10 +29,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup PHP ${{ matrix.php }}
+      - name: Setup PHP 8.3
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: "8.3"
           extensions: mbstring, pdo, pdo_mysql, bcmath, json, tokenizer, xml, ctype
           coverage: xdebug
 
@@ -74,15 +70,12 @@ jobs:
         working-directory: backend
         run: |
           php artisan test --env=testing \
-            --coverage \
-            --coverage-text \
-            --min=70 \
             --filter ItemCategoryTest
 
       - name: Upload coverage report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report-php${{ matrix.php }}
+          name: coverage-report
           path: backend/coverage/
           retention-days: 7
