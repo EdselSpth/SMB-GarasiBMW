@@ -1,0 +1,88 @@
+name: CI - Whitebox Testing (ItemCategory)
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  test:
+    name: Run Pest Tests (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: [8.2]
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: garasi_bmw_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, pdo, pdo_mysql, bcmath, json, tokenizer, xml, ctype
+          coverage: xdebug
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: backend/vendor
+          key: composer-${{ hashFiles('backend/composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install Composer dependencies
+        working-directory: backend
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Copy .env for testing
+        working-directory: backend
+        run: cp .env.example .env.testing
+
+      - name: Set testing environment variables
+        working-directory: backend
+        run: |
+          sed -i 's/APP_ENV=local/APP_ENV=testing/' .env.testing
+          sed -i 's/DB_DATABASE=backend/DB_DATABASE=garasi_bmw_test/' .env.testing
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=password/' .env.testing
+
+      - name: Generate application key
+        working-directory: backend
+        run: php artisan key:generate --env=testing
+
+      - name: Run database migrations
+        working-directory: backend
+        run: php artisan migrate --env=testing --force
+
+      - name: Run Pest Whitebox Tests
+        working-directory: backend
+        run: |
+          php artisan test --env=testing \
+            --coverage \
+            --coverage-text \
+            --min=70 \
+            --filter ItemCategoryTest
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-php${{ matrix.php }}
+          path: backend/coverage/
+          retention-days: 7
